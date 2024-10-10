@@ -3,6 +3,7 @@ import {
   InferAttributes,
   InferCreationAttributes,
   DataTypes,
+  BelongsToManyGetAssociationsMixin,
 } from "sequelize";
 import sequelize from "../config/database";
 import Role from "./role.model";
@@ -10,6 +11,7 @@ import UserProfile from "./userProfile.model";
 import Representative from "./representative.model";
 import Application from "./application.model";
 import UserRole from "./userRole";
+import Contact from "./contact-info.model"; // Import the Contact model
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: string;
@@ -22,13 +24,11 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare resume?: string; // Optional
   declare title?: string; // Optional
   declare bio?: string; // Optional
-  declare phone_number?: string; // Optional
-  declare address?: string; // Optional
-  declare linkedin_url?: string; // Optional
-  declare github_url?: string; // Optional
-  declare website_url?: string; // Optional
+  declare resetPasswordToken: string | null;
+  declare resetPasswordExpires: Date | null;
   declare createdAt?: Date;
   declare updatedAt?: Date;
+  public getRoles!: BelongsToManyGetAssociationsMixin<Role>;
 }
 
 // Initialize the User model
@@ -43,6 +43,16 @@ User.init(
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
+    },
+    resetPasswordToken: {
+      type: DataTypes.STRING,
+      allowNull: true, // This field can be null
+      defaultValue: null,
+    },
+    resetPasswordExpires: {
+      type: DataTypes.DATE,
+      allowNull: true, // This field can be null
+      defaultValue: null,
     },
     password: {
       type: DataTypes.STRING(255),
@@ -69,26 +79,6 @@ User.init(
       allowNull: true,
     },
     bio: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    phone_number: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
-    },
-    address: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    linkedin_url: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    github_url: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    website_url: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
@@ -122,5 +112,7 @@ User.belongsToMany(Role, {
   foreignKey: "userId",
   otherKey: "roleId",
 });
+// Add association with Contact
+User.hasOne(Contact, { foreignKey: "userId", as: "contact" });
 
 export default User;

@@ -6,17 +6,17 @@ import {
 } from "sequelize";
 import sequelize from "../config/database";
 import User from "./user.model";
+import Experience from "./experience.model";
+import Education from "./education.model";
+import Project from "./project.model";
+import Skill from "./skill.model";
+import Testimonial from "./testimonial.model";
 
 class UserProfile extends Model<
   InferAttributes<UserProfile>,
   InferCreationAttributes<UserProfile>
 > {
   declare user_id: string; // User ID as a foreign key
-  declare experience?: object; // JSONB data can be represented as object
-  declare education?: object; // JSONB data can be represented as object
-  declare projects?: object; // JSONB data can be represented as object
-  declare skills?: object; // JSONB data can be represented as object
-  declare testimonials?: object; // JSONB data can be represented as object
   declare createdAt?: Date;
   declare updatedAt?: Date;
 }
@@ -32,26 +32,6 @@ UserProfile.init(
         key: "id",
       },
       onDelete: "CASCADE",
-    },
-    experience: {
-      type: DataTypes.JSONB,
-      allowNull: true,
-    },
-    education: {
-      type: DataTypes.JSONB,
-      allowNull: true,
-    },
-    projects: {
-      type: DataTypes.JSONB,
-      allowNull: true,
-    },
-    skills: {
-      type: DataTypes.JSONB,
-      allowNull: true,
-    },
-    testimonials: {
-      type: DataTypes.JSONB,
-      allowNull: true,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -74,5 +54,19 @@ UserProfile.init(
 
 // Define associations
 UserProfile.belongsTo(User, { foreignKey: "user_id", as: "user" });
+UserProfile.hasMany(Experience, {
+  foreignKey: "userProfileId",
+  as: "experiences",
+});
+UserProfile.hasMany(Education, {
+  foreignKey: "userProfileId",
+  as: "educations",
+});
+UserProfile.hasMany(Project, { foreignKey: "userProfileId", as: "projects" });
+UserProfile.hasMany(Skill, { foreignKey: "userProfileId", as: "skills" });
+UserProfile.hasMany(Testimonial, {
+  foreignKey: "userProfileId",
+  as: "testimonials",
+});
 
 export default UserProfile;
