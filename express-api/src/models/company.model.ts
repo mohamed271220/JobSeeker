@@ -16,6 +16,7 @@ class Company extends Model<
 > {
   declare id: string;
   declare name: string;
+  declare owner_id: string;
   declare description?: string;
   declare industry_id?: string; // Optional
   declare profile_picture?: string; // Optional
@@ -40,6 +41,14 @@ Company.init(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
+    },
+    owner_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: User,
+        key: "id",
+      },
     },
     name: {
       type: DataTypes.STRING(255),
@@ -121,6 +130,7 @@ Company.init(
 );
 
 // Define associations
+Company.belongsTo(User, { foreignKey: "owner_id", as: "owner" });
 Company.belongsTo(Industry, { foreignKey: "industry_id", as: "industry" });
 Company.hasMany(Representative, {
   foreignKey: "company_id",

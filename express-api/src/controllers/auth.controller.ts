@@ -15,6 +15,8 @@ import { CustomError } from "../utils/CustomError";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { Op } from "sequelize";
+import UserProfile from "../models/userProfile.model";
+import sequelize from "../config/database";
 
 export const getProfile = async (
   req: userRequest,
@@ -39,30 +41,44 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ) => {
+  const transaction = await sequelize.transaction();
   try {
     const { first_name, last_name, password, email } = req.body;
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email }, transaction });
     if (user) {
       throw new CustomError("User already exists", 400);
     }
     const passwordHash = await bcrypt.hash(password, 12);
     const id = uuid();
     // Assign default role
-    const role = await Role.findOne({ where: { name: "user" } });
+    const role = await Role.findOne({ where: { name: "user" }, transaction });
     if (!role) {
       throw new CustomError("Role not found", 404);
     }
-    const savedUser = await User.create({
-      id,
-      first_name,
-      last_name,
-      password: passwordHash,
-      email,
-    });
-    await UserRole.create({
-      userId: savedUser.id,
-      roleId: role.id,
-    });
+    const savedUser = await User.create(
+      {
+        id,
+        first_name,
+        last_name,
+        password: passwordHash,
+        email,
+      },
+      { transaction }
+    );
+    await UserRole.create(
+      {
+        userId: savedUser.id,
+        roleId: role.id,
+      },
+      { transaction }
+    );
+
+    await UserProfile.create(
+      {
+        user_id: savedUser.id,
+      },
+      { transaction }
+    );
 
     const token = generateToken({ id: savedUser.id, roles: [role.name] });
     const refreshToken = generateRefreshToken({ id: savedUser.id });
@@ -79,10 +95,13 @@ export const signup = async (
       maxAge: 604800000, // 1 week
     });
 
+    await transaction.commit();
+
     res
       .status(201)
       .json({ message: "User created successfully", userId: savedUser.id });
   } catch (error) {
+    await transaction.rollback();
     console.log(error);
     next(error);
   }

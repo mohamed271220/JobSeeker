@@ -12,6 +12,8 @@ import Representative from "./representative.model";
 import Application from "./application.model";
 import UserRole from "./userRole";
 import Contact from "./contact-info.model"; // Import the Contact model
+import Company from "./company.model";
+import CompanyRequest from "./companyRequest.model";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: string;
@@ -114,5 +116,7 @@ User.belongsToMany(Role, {
 });
 // Add association with Contact
 User.hasOne(Contact, { foreignKey: "userId", as: "contact" });
+User.hasMany(Company, { foreignKey: "owner_id", as: "companies" });
+User.hasMany(CompanyRequest, { foreignKey: "userId", as: "companyRequests" });
 
 export default User;

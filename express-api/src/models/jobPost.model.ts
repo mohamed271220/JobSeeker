@@ -19,6 +19,7 @@ class JobPost extends Model<
   declare is_hybrid?: boolean;
   declare is_on_site?: boolean;
   declare industry_id?: string;
+  declare filled?: boolean;
   declare createdAt?: Date;
   declare updatedAt?: Date;
 }
@@ -56,6 +57,10 @@ JobPost.init(
     },
     industry_id: {
       type: DataTypes.UUID,
+    },
+    filled:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     },
     createdAt: {
       type: DataTypes.DATE,
