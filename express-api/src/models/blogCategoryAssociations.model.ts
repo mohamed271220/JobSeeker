@@ -44,10 +44,6 @@ BlogCategoryAssociation.init(
 );
 
 // Define associations
-BlogCategoryAssociation.belongsTo(Blog, { foreignKey: "blog_id", as: "blog" });
-BlogCategoryAssociation.belongsTo(BlogCategory, {
-  foreignKey: "category_id",
-  as: "category",
-});
+
 
 export default BlogCategoryAssociation;

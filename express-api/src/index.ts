@@ -11,6 +11,7 @@ import "./models"; // Import the models and relationships
 // Routes
 import authRouter from "./routes/auth.route";
 import roleRouter from "./routes/role.route";
+import userProfileRouter from "./routes/user-profile.route";
 
 import swaggerRouter from "./config/swagger";
 
@@ -23,7 +24,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     optionsSuccessStatus: 200,
     credentials: true,
   })
@@ -46,6 +47,7 @@ dbConnection
 // Routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/roles", roleRouter);
+app.use("/api/v1/user-profile", userProfileRouter);
 
 app.use(errorHandler);
 

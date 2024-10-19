@@ -47,7 +47,5 @@ Representative.init(
 );
 
 // Define associations
-Representative.belongsTo(User, { foreignKey: "user_id", as: "user" });
-Representative.belongsTo(Company, { foreignKey: "company_id", as: "company" });
 
 export default Representative;

@@ -3,11 +3,12 @@ import sequelize from "../config/database";
 
 class Education extends Model {
   declare id: string;
-  declare userProfileId: string; // FK to UserProfile
+  declare user_id: string; // FK to UserProfile
   declare institution: string;
   declare degree: string;
   declare startDate: Date;
   declare endDate: Date;
+  declare grade: string;
   declare createdAt?: Date;
   declare updatedAt?: Date;
 }
@@ -19,7 +20,7 @@ Education.init(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    userProfileId: {
+    user_id: {
       type: DataTypes.UUID,
       references: {
         model: "UserProfiles",
@@ -42,6 +43,10 @@ Education.init(
     endDate: {
       type: DataTypes.DATE,
       allowNull: true,
+    },
+    grade: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     createdAt: {
       type: DataTypes.DATE,

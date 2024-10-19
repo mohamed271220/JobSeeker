@@ -31,6 +31,5 @@ Tag.init(
 );
 
 // Associations
-Tag.hasMany(JobPostTag, { foreignKey: 'tag_id', as: 'jobPostTags' });
 
 export default Tag;

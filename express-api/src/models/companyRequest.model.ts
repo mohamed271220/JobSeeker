@@ -13,10 +13,10 @@ class CompanyRequest extends Model<
   InferCreationAttributes<CompanyRequest>
 > {
   declare id: string; // Unique identifier for the request
-  declare userId: string; // ID of the user making the request
+  declare user_id: string; // ID of the user making the request
   declare name: string; // Proposed company name
   declare description?: string; // Company description
-  declare industryId?: string; // Optional industry ID
+  declare industry_id?: string; // Optional industry ID
   declare profilePicture?: string; // URL of the profile picture
   declare websiteUrl?: string; // Company website URL
   declare phone_number?: string; // Contact phone number
@@ -37,7 +37,7 @@ CompanyRequest.init(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    userId: {
+    user_id: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
@@ -54,7 +54,7 @@ CompanyRequest.init(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    industryId: {
+    industry_id: {
       type: DataTypes.UUID,
       allowNull: true,
       references: {
@@ -113,6 +113,5 @@ CompanyRequest.init(
   }
 );
 
-CompanyRequest.belongsTo(User, { foreignKey: "userId", as: "user" });
 
 export default CompanyRequest;

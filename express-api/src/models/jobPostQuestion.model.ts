@@ -50,9 +50,6 @@ JobPostQuestion.init(
 );
 
 // Define associations
-JobPostQuestion.belongsTo(JobPost, {
-  foreignKey: "job_post_id",
-  as: "jobPost",
-});
+
 
 export default JobPostQuestion;

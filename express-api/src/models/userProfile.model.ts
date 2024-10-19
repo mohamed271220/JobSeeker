@@ -10,6 +10,7 @@ import Experience from "./experience.model";
 import Education from "./education.model";
 import Project from "./project.model";
 import Skill from "./skill.model";
+import UserSkill from "./userSkill.model";
 import Testimonial from "./testimonial.model";
 
 class UserProfile extends Model<
@@ -53,20 +54,4 @@ UserProfile.init(
 );
 
 // Define associations
-UserProfile.belongsTo(User, { foreignKey: "user_id", as: "user" });
-UserProfile.hasMany(Experience, {
-  foreignKey: "userProfileId",
-  as: "experiences",
-});
-UserProfile.hasMany(Education, {
-  foreignKey: "userProfileId",
-  as: "educations",
-});
-UserProfile.hasMany(Project, { foreignKey: "userProfileId", as: "projects" });
-UserProfile.hasMany(Skill, { foreignKey: "userProfileId", as: "skills" });
-UserProfile.hasMany(Testimonial, {
-  foreignKey: "userProfileId",
-  as: "testimonials",
-});
-
 export default UserProfile;

@@ -1,32 +1,32 @@
-import { Model, DataTypes } from "sequelize";
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from "sequelize";
 import sequelize from "../config/database";
+import User from "./user.model";
+import Skill from "./skill.model";
 
-class Testimonial extends Model {
+class UserSkill extends Model<
+  InferAttributes<UserSkill>,
+  InferCreationAttributes<UserSkill>
+> {
   declare id: string;
-  declare content: string; // The testimonial content
-  declare author: string; // The name of the author
-  declare givenBy: string; // FK to UserProfile who gave the testimonial
-  declare receivedBy: string; // FK to UserProfile who received the testimonial
+  declare user_id: string;
+  declare skill_id: string;
   declare createdAt?: Date;
   declare updatedAt?: Date;
 }
 
-Testimonial.init(
+UserSkill.init(
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    content: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    author: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    givenBy: {
+    user_id: {
       type: DataTypes.UUID,
       references: {
         model: "UserProfiles",
@@ -34,11 +34,11 @@ Testimonial.init(
       },
       allowNull: false,
     },
-    receivedBy: {
+    skill_id: {
       type: DataTypes.UUID,
       references: {
-        model: "UserProfiles",
-        key: "user_id",
+        model: "Skills",
+        key: "id",
       },
       allowNull: false,
     },
@@ -55,10 +55,10 @@ Testimonial.init(
   },
   {
     sequelize,
-    modelName: "Testimonial",
-    tableName: "Testimonials",
+    modelName: "UserSkill",
+    tableName: "UserSkills",
     timestamps: true,
   }
 );
 
-export default Testimonial;
+export default UserSkill;

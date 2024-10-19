@@ -10,6 +10,7 @@ import Representative from "./representative.model";
 import User from "./user.model";
 import JobPost from "./jobPost.model";
 import Blog from "./blog.model";
+
 class Company extends Model<
   InferAttributes<Company>,
   InferCreationAttributes<Company>
@@ -130,19 +131,4 @@ Company.init(
 );
 
 // Define associations
-Company.belongsTo(User, { foreignKey: "owner_id", as: "owner" });
-Company.belongsTo(Industry, { foreignKey: "industry_id", as: "industry" });
-Company.hasMany(Representative, {
-  foreignKey: "company_id",
-  as: "representatives",
-});
-// Companies can have many users through representatives
-Company.belongsToMany(User, {
-  through: Representative,
-  foreignKey: "company_id",
-  as: "users",
-});
-Company.hasMany(JobPost, { foreignKey: "company_id", as: "jobPosts" }); // Companies can have many job posts
-Company.hasMany(Blog, { foreignKey: "company_id", as: "blogs" });
-
 export default Company;

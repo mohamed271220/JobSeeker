@@ -37,7 +37,5 @@ JobPostTag.init(
 );
 
 // Associations
-JobPostTag.belongsTo(JobPost, { foreignKey: "job_post_id", as: "jobPost" });
-JobPostTag.belongsTo(Tag, { foreignKey: "tag_id", as: "tag" });
 
 export default JobPostTag;

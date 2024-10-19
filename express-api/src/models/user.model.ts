@@ -10,10 +10,11 @@ import Role from "./role.model";
 import UserProfile from "./userProfile.model";
 import Representative from "./representative.model";
 import Application from "./application.model";
-import UserRole from "./userRole";
+import UserRole from "./userRole.model";
 import Contact from "./contact-info.model"; // Import the Contact model
 import Company from "./company.model";
 import CompanyRequest from "./companyRequest.model";
+import Testimonial from "./testimonial.model";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: string;
@@ -104,19 +105,6 @@ User.init(
 );
 
 // Define associations
-User.belongsTo(Role, { foreignKey: "role_id", as: "role" });
-User.hasOne(UserProfile, { foreignKey: "user_id", as: "profile" });
-User.hasMany(Representative, { foreignKey: "user_id", as: "representatives" });
-User.hasMany(Application, { foreignKey: "user_id", as: "applications" });
-// User belongs to many Roles through UserRole (Many-to-Many)
-User.belongsToMany(Role, {
-  through: UserRole,
-  foreignKey: "userId",
-  otherKey: "roleId",
-});
-// Add association with Contact
-User.hasOne(Contact, { foreignKey: "userId", as: "contact" });
-User.hasMany(Company, { foreignKey: "owner_id", as: "companies" });
-User.hasMany(CompanyRequest, { foreignKey: "userId", as: "companyRequests" });
+
 
 export default User;

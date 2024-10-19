@@ -8,6 +8,7 @@ import sequelize from "../config/database";
 import Company from "./company.model";
 import JobPost from "./jobPost.model";
 
+
 class Industry extends Model<
   InferAttributes<Industry>,
   InferCreationAttributes<Industry>
@@ -39,7 +40,6 @@ Industry.init(
 );
 
 // Define associations
-Industry.hasMany(Company, { foreignKey: "industry_id", as: "companies" });
-Industry.hasMany(JobPost, { foreignKey: "industry_id", as: "jobPosts" });
+
 
 export default Industry;

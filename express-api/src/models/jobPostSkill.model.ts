@@ -31,7 +31,5 @@ JobPostSkill.init(
   }
 );
 
-JobPostSkill.belongsTo(JobPost, { foreignKey: 'job_post_id', as: 'jobPost' });
-JobPostSkill.belongsTo(Skill, { foreignKey: 'skill_id', as: 'skill' });
 
 export default JobPostSkill;

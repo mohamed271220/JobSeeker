@@ -61,7 +61,5 @@ Application.init(
 );
 
 // Define associations
-Application.belongsTo(JobPost, { foreignKey: 'job_post_id', as: 'jobPost' });
-Application.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
 
 export default Application;

@@ -71,11 +71,5 @@ Blog.init(
 );
 
 // Define associations
-Blog.belongsTo(Company, { foreignKey: "company_id", as: "company" });
-Blog.hasMany(BlogTagAssociation, { foreignKey: "blog_id", as: "tags" });
-Blog.hasMany(BlogCategoryAssociation, {
-  foreignKey: "blog_id",
-  as: "categories",
-});
 
 export default Blog;

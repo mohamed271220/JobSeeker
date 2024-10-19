@@ -3,7 +3,7 @@ import sequelize from "../config/database";
 
 class Experience extends Model {
   declare id: string;
-  declare userProfileId: string; // FK to UserProfile
+  declare user_id: string; // FK to UserProfile
   declare role: string;
   declare company: string;
   declare startDate: Date;
@@ -19,7 +19,7 @@ Experience.init(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    userProfileId: {
+     user_id: {
       type: DataTypes.UUID,
       references: {
         model: "UserProfiles",
@@ -61,5 +61,7 @@ Experience.init(
     timestamps: true,
   }
 );
+
+
 
 export default Experience;

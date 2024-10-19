@@ -13,12 +13,13 @@ import {
   addExperience,
   addEducation,
   addProject,
-  addSkill,
+  addSkills,
   addTestimonial,
 } from "../controllers/user-profile.controller";
 import { authenticateToken } from "../middleware/auth-middleware";
 
 const router = express.Router();
+// api/v1/user-profile
 
 // Get user details (public profile, no authentication required to view) p.s. should be curated to not show sensitive information
 router.get("/details/:userId", getUserDetails);
@@ -69,7 +70,7 @@ router.post("/projects", authenticateToken, addProject);
 // router.delete("/projects", authenticateToken, removeProject);
 
 // Add skill
-router.post("/skills", authenticateToken, addSkill);
+router.post("/skills", authenticateToken, addSkills);
 
 // remove skill
 // router.delete("/skills", authenticateToken, removeSkill);

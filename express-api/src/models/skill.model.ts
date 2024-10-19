@@ -1,6 +1,13 @@
-import { Model, DataTypes, InferAttributes, InferCreationAttributes } from 'sequelize';
-import sequelize  from '../config/database';
-import JobPostSkill from './jobPostSkill.model';
+import {
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+} from "sequelize";
+import sequelize from "../config/database";
+import JobPostSkill from "./jobPostSkill.model";
+import UserProfile from "./userProfile.model";
+import UserSkill from "./userSkill.model";
 
 class Skill extends Model<
   InferAttributes<Skill>,
@@ -25,12 +32,12 @@ Skill.init(
   },
   {
     sequelize,
-    tableName: 'Skills',
-    modelName: 'Skill',
+    tableName: "Skills",
+    modelName: "Skill",
   }
 );
 
 // Associations
-Skill.hasMany(JobPostSkill, { foreignKey: 'skill_id', as: 'jobPostSkills' });
+
 
 export default Skill;

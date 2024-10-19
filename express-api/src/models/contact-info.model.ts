@@ -8,7 +8,7 @@ import {
   
   class Contact extends Model<InferAttributes<Contact>, InferCreationAttributes<Contact>> {
     declare id: string;
-    declare userId: string; // Foreign key linking to User
+    declare user_id: string; // Foreign key linking to User
     declare phone_number?: string; // Optional
     declare address?: string; // Optional
     declare linkedin_url?: string; // Optional
@@ -24,7 +24,7 @@ import {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      userId: {
+      user_id: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {

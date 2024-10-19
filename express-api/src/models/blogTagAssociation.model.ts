@@ -44,7 +44,5 @@ BlogTagAssociation.init(
 );
 
 // Define associations
-BlogTagAssociation.belongsTo(Blog, { foreignKey: "blog_id", as: "blog" });
-BlogTagAssociation.belongsTo(BlogTag, { foreignKey: "tag_id", as: "tag" });
 
 export default BlogTagAssociation;

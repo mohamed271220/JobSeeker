@@ -46,7 +46,5 @@ ApplicationAnswer.init(
 );
 
 // Define associations
-ApplicationAnswer.belongsTo(Application, { foreignKey: 'application_id', as: 'application' });
-ApplicationAnswer.belongsTo(JobPostQuestion, { foreignKey: 'question_id', as: 'question' });
 
 export default ApplicationAnswer;

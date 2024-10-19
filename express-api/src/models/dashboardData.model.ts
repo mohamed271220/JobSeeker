@@ -50,6 +50,5 @@ DashboardData.init(
 );
 
 // Define associations
-DashboardData.belongsTo(Company, { foreignKey: "company_id", as: "company" });
 
 export default DashboardData;

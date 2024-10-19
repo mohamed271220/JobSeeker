@@ -12,13 +12,13 @@ class UserRole extends Model<
   InferAttributes<UserRole>,
   InferCreationAttributes<UserRole>
 > {
-  declare userId: string;
-  declare roleId: string;
+  declare user_id: string;
+  declare role_id: string;
 }
 
 UserRole.init(
   {
-    userId: {
+    user_id: {
       type: DataTypes.UUID,
       references: {
         model: "users",
@@ -26,7 +26,7 @@ UserRole.init(
       },
       onDelete: "CASCADE",
     },
-    roleId: {
+    role_id: {
       type: DataTypes.UUID,
       references: {
         model: "roles",
@@ -42,8 +42,5 @@ UserRole.init(
     timestamps: false,
   }
 );
-
-UserRole.belongsTo(User, { foreignKey: "userId" });
-UserRole.belongsTo(Role, { foreignKey: "roleId" });
 
 export default UserRole;

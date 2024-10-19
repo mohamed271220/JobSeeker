@@ -7,7 +7,7 @@ import {
 } from "../utils/jwt";
 import User from "../models/user.model";
 import Role from "../models/role.model";
-import UserRole from "../models/userRole";
+import UserRole from "../models/userRole.model";
 import bcrypt from "bcryptjs";
 import { v4 as uuid } from "uuid";
 import { userRequest } from "../interfaces";
@@ -67,8 +67,8 @@ export const signup = async (
     );
     await UserRole.create(
       {
-        userId: savedUser.id,
-        roleId: role.id,
+        user_id: savedUser.id,
+        role_id: role.id,
       },
       { transaction }
     );

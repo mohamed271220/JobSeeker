@@ -6,7 +6,7 @@ import {
 } from "sequelize";
 import sequelize from "../config/database";
 import User from "./user.model";
-import UserRole from "./userRole";
+import UserRole from "./userRole.model";
 
 class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
   declare id: string;
@@ -36,12 +36,5 @@ Role.init(
 );
 
 // Define associations
-Role.hasMany(User, { foreignKey: "role_id", as: "users" });
-// Role belongs to many Users through UserRole (Many-to-Many)
-Role.belongsToMany(User, {
-  through: UserRole,
-  foreignKey: "roleId",
-  otherKey: "userId",
-});
 
 export default Role;

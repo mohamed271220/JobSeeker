@@ -1,11 +1,16 @@
-import { Model, DataTypes, InferAttributes, InferCreationAttributes } from 'sequelize';
-import  sequelize  from '../config/database';
-import Company from './company.model'; 
-import Industry from './industry.model'; 
-import JobPostSkill from './jobPostSkill.model'; 
-import JobPostTag from './jobPostTag.model'; 
-import Application from './application.model';
-import JobPostQuestion from './jobPostQuestion.model';
+import {
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+} from "sequelize";
+import sequelize from "../config/database";
+import Company from "./company.model";
+import Industry from "./industry.model";
+import JobPostSkill from "./jobPostSkill.model";
+import JobPostTag from "./jobPostTag.model";
+import Application from "./application.model";
+import JobPostQuestion from "./jobPostQuestion.model";
 
 class JobPost extends Model<
   InferAttributes<JobPost>,
@@ -58,7 +63,7 @@ JobPost.init(
     industry_id: {
       type: DataTypes.UUID,
     },
-    filled:{
+    filled: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
@@ -73,17 +78,12 @@ JobPost.init(
   },
   {
     sequelize,
-    tableName: 'JobPosts',
-    modelName: 'JobPost',
+    tableName: "JobPosts",
+    modelName: "JobPost",
   }
 );
 
 // Associations
-JobPost.belongsTo(Company, { foreignKey: 'company_id', as: 'company' });
-JobPost.belongsTo(Industry, { foreignKey: 'industry_id', as: 'industry' });
-JobPost.hasMany(JobPostSkill, { foreignKey: 'job_post_id', as: 'skills' });
-JobPost.hasMany(JobPostTag, { foreignKey: 'job_post_id', as: 'tags' });
-JobPost.hasMany(Application, { foreignKey: 'job_post_id', as: 'applications' });
-JobPost.hasMany(JobPostQuestion, { foreignKey: 'job_post_id', as: 'questions' });
+
 
 export default JobPost;
