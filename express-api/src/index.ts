@@ -5,18 +5,18 @@ import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import { errorHandler } from "./middleware/error-handler";
-import "./models"; // Import the models and relationships
+import { errorHandler } from "./common/error-handlers/error-handler";
+import "./config/db-associations"; // Import the models and relationships
 
 // Routes
-import authRouter from "./routes/auth.route";
-import roleRouter from "./routes/role.route";
-import userProfileRouter from "./routes/user-profile.route";
+import authRouter from "./features/auth/auth.route";
+import roleRouter from "./features/role/role.route";
+import userProfileRouter from "./features/profile/user-profile.route";
 
 import swaggerRouter from "./config/swagger";
 
 dotenv.config();
-import "./models"; // Import the models and relationships
+import "./config/db-associations"; // Import the models and relationships
 
 const app = express();
 app.use(express.json());
