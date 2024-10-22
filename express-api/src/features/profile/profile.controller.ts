@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { userRequest } from "../../interfaces";
-import { UserProfileService } from "./user-profile.service";
-import { CustomError } from "../../common/error-handlers/CustomError";
+import { ProfileService } from "./profile.service";
+import { CustomError } from "../../utils/CustomError";
 
-const userProfileService = new UserProfileService();
+const profileService = new ProfileService();
 
 export const getUserDetails = async (
   req: Request,
@@ -12,7 +12,7 @@ export const getUserDetails = async (
 ) => {
   try {
     const { userId } = req.params;
-    const userDetails = await userProfileService.getUserDetails(userId);
+    const userDetails = await profileService.getUserDetails(userId);
     res.status(200).json({
       message: "User details retrieved successfully",
       userDetails,
@@ -22,17 +22,17 @@ export const getUserDetails = async (
   }
 };
 
-export const getUserProfile = async (
+export const getProfile = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { userId } = req.params;
-    const userProfile = await userProfileService.getUserProfile(userId);
+    const Profile = await profileService.getProfile(userId);
     res.status(200).json({
       message: "User profile retrieved successfully",
-      userProfile,
+      Profile,
     });
   } catch (error) {
     next(error);
@@ -46,9 +46,7 @@ export const getUserContactDetails = async (
 ) => {
   try {
     const { userId } = req.params;
-    const contactDetails = await userProfileService.getUserContactDetails(
-      userId
-    );
+    const contactDetails = await profileService.getUserContactDetails(userId);
     res.status(200).json({
       message: "User contact details retrieved successfully",
       contactDetails,
@@ -65,7 +63,7 @@ export const getUserExperiences = async (
 ) => {
   try {
     const { userId } = req.params;
-    const experiences = await userProfileService.getUserExperiences(userId);
+    const experiences = await profileService.getUserExperiences(userId);
     res.status(200).json({
       message: "User experiences retrieved successfully",
       experiences,
@@ -82,7 +80,7 @@ export const getUserEducations = async (
 ) => {
   try {
     const { userId } = req.params;
-    const educations = await userProfileService.getUserEducations(userId);
+    const educations = await profileService.getUserEducations(userId);
     res.status(200).json({
       message: "User educations retrieved successfully",
       educations,
@@ -99,7 +97,7 @@ export const getUserProjects = async (
 ) => {
   try {
     const { userId } = req.params;
-    const projects = await userProfileService.getUserProjects(userId);
+    const projects = await profileService.getUserProjects(userId);
     res.status(200).json({
       message: "User projects retrieved successfully",
       projects,
@@ -116,7 +114,7 @@ export const getUserSkills = async (
 ) => {
   try {
     const { userId } = req.params;
-    const skills = await userProfileService.getUserSkills(userId);
+    const skills = await profileService.getUserSkills(userId);
     res.status(200).json({
       message: "User skills retrieved successfully",
       skills,
@@ -133,7 +131,7 @@ export const getUserTestimonials = async (
 ) => {
   try {
     const { userId } = req.params;
-    const testimonials = await userProfileService.getUserTestimonials(userId);
+    const testimonials = await profileService.getUserTestimonials(userId);
     res.status(200).json({
       message: "User testimonials retrieved successfully",
       testimonials,
@@ -155,7 +153,7 @@ export const updateUserDetails = async (
     const { id } = req.user;
     const { first_name, last_name, bio, profile_picture, resume, title } =
       req.body;
-    await userProfileService.updateUserDetails(id, {
+    await profileService.updateUserDetails(id, {
       first_name,
       last_name,
       bio,
@@ -183,7 +181,7 @@ export const addContactDetails = async (
     const { id } = req.user;
     const { phone_number, address, linkedin_url, github_url, website_url } =
       req.body;
-    await userProfileService.addContactDetails(id, {
+    await profileService.addContactDetails(id, {
       phone_number,
       address,
       linkedin_url,
@@ -210,7 +208,7 @@ export const addExperience = async (
     const { id } = req.user;
     const { title, company, location, start_date, end_date, description } =
       req.body;
-    await userProfileService.addExperience(id, {
+    await profileService.addExperience(id, {
       title,
       company,
       location,
@@ -237,7 +235,7 @@ export const addEducation = async (
     }
     const { id } = req.user;
     const { institution, degree, startDate, endDate } = req.body;
-    await userProfileService.addEducation(id, {
+    await profileService.addEducation(id, {
       institution,
       degree,
       startDate,
@@ -262,7 +260,7 @@ export const addProject = async (
     }
     const { id } = req.user;
     const { title, description, startDate, endDate, link } = req.body;
-    await userProfileService.addProject(id, {
+    await profileService.addProject(id, {
       title,
       description,
       startDate,
@@ -288,7 +286,7 @@ export const addSkills = async (
     }
     const { id } = req.user;
     const { skills } = req.body;
-    await userProfileService.addSkills(id, skills);
+    await profileService.addSkills(id, skills);
     res.status(201).json({
       message: "Skills added successfully",
     });
@@ -308,7 +306,7 @@ export const addTestimonial = async (
     }
     const { id } = req.user;
     const { content, author, receivedBy } = req.body;
-    await userProfileService.addTestimonial(id, {
+    await profileService.addTestimonial(id, {
       content,
       author,
       receivedBy,

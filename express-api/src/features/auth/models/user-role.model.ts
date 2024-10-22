@@ -4,9 +4,9 @@ import {
   InferAttributes,
   InferCreationAttributes,
 } from "sequelize";
-import sequelize from "../../config/database";
-import User from "../shared/models/user.model";
-import Role from "../role/role.model";
+import sequelize from "../../../config/database";
+import User from "./user.model";
+import Role from "../../role/role.model";
 
 class UserRole extends Model<
   InferAttributes<UserRole>,

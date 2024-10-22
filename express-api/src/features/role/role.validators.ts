@@ -1,5 +1,5 @@
 import { body, param, validationResult } from "express-validator";
-import { handleValidationErrors } from "./report-errors";
+import { handleValidationErrors } from "../../utils/report-validators-errors";
 
 // Validators for creating a role
 export const createRoleValidators = [

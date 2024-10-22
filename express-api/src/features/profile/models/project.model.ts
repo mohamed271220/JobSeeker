@@ -3,7 +3,7 @@ import sequelize from "../../../config/database";
 
 class Project extends Model {
   declare id: string;
-  declare user_id: string; // FK to UserProfile
+  declare user_id: string; // FK to Profile
   declare title: string;
   declare description: string;
   declare startDate: Date;
@@ -23,7 +23,7 @@ Project.init(
     user_id: {
       type: DataTypes.UUID,
       references: {
-        model: "UserProfiles",
+        model: "Profiles",
         key: "user_id",
       },
       allowNull: false,

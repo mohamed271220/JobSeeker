@@ -15,9 +15,9 @@ import Role from "../features/role/role.model";
 import Skill from "../features/skill/skill.model";
 import Tag from "../features/tag/tag.model";
 import Testimonial from "../features/profile/models/testimonial.model";
-import User from "../features/shared/models/user.model";
-import UserProfile from "../features/profile/models/user-profile.model";
-import UserRole from "../features/auth/user-role.model";
+import User from "../features/auth/models/user.model";
+import Profile from "../features/profile/models/profile.model";
+import UserRole from "../features/auth/models/user-role.model";
 import UserSkill from "../features/profile/models/user-skill.model";
 import Blog from "../features/blog/models/blog.model";
 import BlogCategory from "../features/blog/models/category.model";
@@ -26,7 +26,7 @@ import BlogTag from "../features/blog/models/tag.model";
 import BlogTagAssociation from "../features/blog/models/blog-tag.model";
 import Company from "../features/company/models/company.model";
 import CompanyRequest from "../features/company/models/company-request.model";
-import Representative from "../features/company/representative.model";
+import Representative from "../features/company/models/representative.model";
 
 export const models = {
   Application,
@@ -54,7 +54,7 @@ export const models = {
   Tag,
   Testimonial,
   User,
-  UserProfile,
+  Profile,
   UserRole,
   UserSkill,
 };
@@ -168,7 +168,7 @@ Role.belongsToMany(User, {
 
 // Skill associations
 Skill.hasMany(JobPostSkill, { foreignKey: "skill_id", as: "jobPostSkills" });
-Skill.belongsToMany(UserProfile, { through: UserSkill, as: "userProfiles" });
+Skill.belongsToMany(Profile, { through: UserSkill, as: "Profiles" });
 
 // Tag associations
 Tag.hasMany(JobPostTag, { foreignKey: "tag_id", as: "jobPostTags" });
@@ -176,7 +176,7 @@ Tag.hasMany(BlogTagAssociation, { foreignKey: "tag_id", as: "blogTags" });
 
 // User associations
 User.belongsTo(Role, { foreignKey: "role_id", as: "role" });
-User.hasOne(UserProfile, { foreignKey: "user_id", as: "profile" });
+User.hasOne(Profile, { foreignKey: "user_id", as: "profile" });
 User.hasMany(Representative, { foreignKey: "user_id", as: "representatives" });
 User.hasMany(Application, { foreignKey: "user_id", as: "applications" });
 User.belongsToMany(Role, {
@@ -189,17 +189,17 @@ User.hasMany(Company, { foreignKey: "owner_id", as: "companies" });
 User.hasMany(CompanyRequest, { foreignKey: "user_id", as: "companyRequests" });
 User.hasMany(UserSkill, { foreignKey: "user_id", as: "userSkills" });
 
-// UserProfile associations
-UserProfile.belongsTo(User, { foreignKey: "user_id", as: "user" });
-UserProfile.hasMany(Experience, { foreignKey: "user_id", as: "experiences" });
-UserProfile.hasMany(Education, { foreignKey: "user_id", as: "educations" });
-UserProfile.hasMany(Project, { foreignKey: "user_id", as: "projects" });
-UserProfile.belongsToMany(Skill, { through: UserSkill, as: "skills" });
-UserProfile.hasMany(Testimonial, {
+// Profile associations
+Profile.belongsTo(User, { foreignKey: "user_id", as: "user" });
+Profile.hasMany(Experience, { foreignKey: "user_id", as: "experiences" });
+Profile.hasMany(Education, { foreignKey: "user_id", as: "educations" });
+Profile.hasMany(Project, { foreignKey: "user_id", as: "projects" });
+Profile.belongsToMany(Skill, { through: UserSkill, as: "skills" });
+Profile.hasMany(Testimonial, {
   foreignKey: "receivedBy",
   as: "receivedTestimonials",
 });
-UserProfile.hasMany(Testimonial, {
+Profile.hasMany(Testimonial, {
   foreignKey: "givenBy",
   as: "givenTestimonials",
 });

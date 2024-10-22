@@ -1,8 +1,8 @@
 import express from "express";
 import { authenticateToken } from "../../middleware/auth-middleware";
 import { authorizeRoles } from "../../middleware/role-middleware";
-import * as roleController from "./role-controller";
-import { updateRoleValidators } from "../../common/validators/role-validators";
+import * as roleController from "./role.controller";
+import { updateRoleValidators } from "./role.validators";
 
 // /api/v1/roles
 const router = express.Router();

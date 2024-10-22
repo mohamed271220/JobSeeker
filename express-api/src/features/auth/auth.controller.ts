@@ -5,17 +5,17 @@ import {
   verifyRefreshToken,
   verifyToken,
 } from "../../utils/jwt";
-import User from "../shared/models/user.model";
+import User from "./models/user.model";
 import Role from "../role/role.model";
-import UserRole from "./user-role.model";
+import UserRole from "./models/user-role.model";
 import bcrypt from "bcryptjs";
 import { v4 as uuid } from "uuid";
 import { userRequest } from "../../interfaces";
-import { CustomError } from "../../common/error-handlers/CustomError";
+import { CustomError } from "../../utils/CustomError";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { Op } from "sequelize";
-import UserProfile from "../profile/models/user-profile.model";
+import Profile from "../profile/models/profile.model";
 import sequelize from "../../config/database";
 
 export const getProfile = async (
@@ -73,7 +73,7 @@ export const signup = async (
       { transaction }
     );
 
-    await UserProfile.create(
+    await Profile.create(
       {
         user_id: savedUser.id,
       },

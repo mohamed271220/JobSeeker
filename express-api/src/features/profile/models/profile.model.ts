@@ -5,19 +5,19 @@ import {
   DataTypes,
 } from "sequelize";
 import sequelize from "../../../config/database";
-import User from "../../shared/models/user.model";
+import User from "../../auth/models/user.model";
 
-class UserProfile extends Model<
-  InferAttributes<UserProfile>,
-  InferCreationAttributes<UserProfile>
+class Profile extends Model<
+  InferAttributes<Profile>,
+  InferCreationAttributes<Profile>
 > {
   declare user_id: string; // User ID as a foreign key
   declare createdAt?: Date;
   declare updatedAt?: Date;
 }
 
-// Initialize the UserProfile model
-UserProfile.init(
+// Initialize the Profile model
+Profile.init(
   {
     user_id: {
       type: DataTypes.UUID,
@@ -41,11 +41,11 @@ UserProfile.init(
   },
   {
     sequelize,
-    modelName: "UserProfile",
-    tableName: "UserProfiles",
+    modelName: "Profile",
+    tableName: "Profiles",
     timestamps: true,
   }
 );
 
 // Define associations
-export default UserProfile;
+export default Profile;

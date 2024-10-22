@@ -4,24 +4,21 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import cookieSession from "cookie-session";
 import dotenv from "dotenv";
-import { errorHandler } from "./common/error-handlers/error-handler";
+import compression from "compression";
+import hpp from "hpp";
+import xss from "xss-clean";
+import rateLimit from "express-rate-limit";
+import { errorHandler } from "./utils/error-handler";
 import "./config/db-associations"; // Import the models and relationships
-
-// Routes
-import authRouter from "./features/auth/auth.route";
-import roleRouter from "./features/role/role.route";
-import userProfileRouter from "./features/profile/user-profile.route";
-
+import routes from "./routes";
 import swaggerRouter from "./config/swagger";
-
 dotenv.config();
-import "./config/db-associations"; // Import the models and relationships
 
 const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(helmet());
 app.use(
   cors({
     origin: "*",
@@ -29,7 +26,40 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [process.env.SESSION_SECRET || "defaultSecretKey"],
+    httpOnly: true, // Prevent client-side JS access to the cookie
+    secure: process.env.NODE_ENV === "production", // HTTPS in production
+    sameSite: "none", // Restrict cookies to the same site
+  })
+);
 app.use(cookieParser());
+app.use(compression()); // Compress responses
+app.use(hpp()); // Protect against HTTP parameter pollution
+app.use(xss()); // Prevent cross-site scripting attacks
+
+// Security Headers
+app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+    },
+  })
+);
+app.use(helmet.xssFilter()); // X-XSS-Protection
+app.use(helmet.noSniff()); // X-Content-Type-Options
+
+// Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
 
 dbConnection
   .authenticate()
@@ -45,9 +75,7 @@ dbConnection
   });
 
 // Routes
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/roles", roleRouter);
-app.use("/api/v1/user-profile", userProfileRouter);
+app.use("/api/v1", routes);
 
 app.use(errorHandler);
 

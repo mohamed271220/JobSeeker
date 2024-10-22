@@ -6,7 +6,7 @@ import {
 } from "sequelize";
 import sequelize from "../../../config/database";
 import Company from "./company.model";
-import User from "../../shared/models/user.model";
+import User from "../../auth/models/user.model";
 
 class Representative extends Model<
   InferAttributes<Representative>,

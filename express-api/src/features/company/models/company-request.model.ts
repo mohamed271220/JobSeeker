@@ -5,7 +5,7 @@ import {
   DataTypes,
 } from "sequelize";
 import sequelize from "../../../config/database";
-import User from "../../shared/models/user.model";
+import User from "../../auth/models/user.model";
 import Industry from "../../industry/industry.model";
 
 class CompanyRequest extends Model<

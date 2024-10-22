@@ -5,8 +5,8 @@ class Testimonial extends Model {
   declare id: string;
   declare content: string; // The testimonial content
   declare author: string; // The name of the author
-  declare givenBy: string; // FK to UserProfile who gave the testimonial
-  declare receivedBy: string; // FK to UserProfile who received the testimonial
+  declare givenBy: string; // FK to Profile who gave the testimonial
+  declare receivedBy: string; // FK to Profile who received the testimonial
   declare createdAt?: Date;
   declare updatedAt?: Date;
 }
@@ -29,7 +29,7 @@ Testimonial.init(
     givenBy: {
       type: DataTypes.UUID,
       references: {
-        model: "UserProfiles",
+        model: "Profiles",
         key: "user_id",
       },
       allowNull: false,
@@ -37,7 +37,7 @@ Testimonial.init(
     receivedBy: {
       type: DataTypes.UUID,
       references: {
-        model: "UserProfiles",
+        model: "Profiles",
         key: "user_id",
       },
       allowNull: false,

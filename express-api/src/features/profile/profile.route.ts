@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getUserDetails,
-  getUserProfile,
+  getProfile,
   getUserContactDetails,
   getUserExperiences,
   getUserEducations,
@@ -15,7 +15,7 @@ import {
   addProject,
   addSkills,
   addTestimonial,
-} from "./user-profile.controller";
+} from "./profile.controller";
 import { authenticateToken } from "../../middleware/auth-middleware";
 
 const router = express.Router();
@@ -25,7 +25,7 @@ const router = express.Router();
 router.get("/details/:userId", getUserDetails);
 
 // Get user profile
-router.get("/profile/:userId", getUserProfile);
+router.get("/profile/:userId", getProfile);
 
 // Get user's contact details
 router.get("/contact/:userId", getUserContactDetails);

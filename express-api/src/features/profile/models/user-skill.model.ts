@@ -27,7 +27,7 @@ UserSkill.init(
     user_id: {
       type: DataTypes.UUID,
       references: {
-        model: "UserProfiles",
+        model: "Profiles",
         key: "user_id",
       },
       allowNull: false,

@@ -1,6 +1,6 @@
 import express from "express";
 import fileUpload from "../../middleware/file-upload";
-import { uploadFiles } from "./upload-controller";
+import { uploadFiles } from "./upload.controller";
 import { authenticateToken } from "../../middleware/auth-middleware";
 
 ///api/v1/media

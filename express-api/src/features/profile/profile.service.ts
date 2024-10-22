@@ -4,15 +4,15 @@ import Experience from "./models/experience.model";
 import Project from "./models/project.model";
 import Skill from "../skill/skill.model";
 import Testimonial from "./models/testimonial.model";
-import User from "../shared/models/user.model";
-import UserProfile from "./models/user-profile.model";
+import User from "../auth/models/user.model";
+import Profile from "./models/profile.model";
 import { v4 as uuid } from "uuid";
-import { CustomError } from "../../common/error-handlers/CustomError";
+import { CustomError } from "../../utils/CustomError";
 import UserSkill from "./models/user-skill.model";
 
-export class UserProfileService {
+export class ProfileService {
   constructor(
-    private userProfileModel: typeof UserProfile = UserProfile,
+    private ProfileModel: typeof Profile = Profile,
     private userModel: typeof User = User,
     private contactModel: typeof Contact = Contact,
     private experienceModel: typeof Experience = Experience,
@@ -45,11 +45,11 @@ export class UserProfileService {
     });
   }
 
-  async getUserProfile(userId: string) {
+  async getProfile(userId: string) {
     if (!(await this.userIdExists(userId))) {
       throw new CustomError("User not found", 404);
     }
-    return this.userProfileModel.findByPk(userId, {
+    return this.ProfileModel.findByPk(userId, {
       include: [
         {
           model: this.experienceModel,
@@ -107,7 +107,7 @@ export class UserProfileService {
     if (!(await this.userIdExists(userId))) {
       throw new CustomError("User not found", 404);
     }
-    return this.userProfileModel.findByPk(userId, {
+    return this.ProfileModel.findByPk(userId, {
       include: [
         {
           model: this.skillModel,

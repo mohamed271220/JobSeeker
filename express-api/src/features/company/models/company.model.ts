@@ -4,7 +4,7 @@ import {
   InferCreationAttributes,
   DataTypes,
 } from "sequelize";
-import User from "../../shared/models/user.model";
+import User from "../../auth/models/user.model";
 import Industry from "../../industry/industry.model";
 import sequelize from "../../../config/database";
 
