@@ -6,7 +6,7 @@ import {
 } from "sequelize";
 import sequelize from "../../../config/database";
 import Blog from "./blog.model";
-import BlogCategory from "./category.model";
+import BlogCategory from "../micro-features/category/category.model";
 
 class BlogCategoryAssociation extends Model<
   InferAttributes<BlogCategoryAssociation>,
@@ -44,6 +44,5 @@ BlogCategoryAssociation.init(
 );
 
 // Define associations
-
 
 export default BlogCategoryAssociation;

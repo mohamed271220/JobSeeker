@@ -6,7 +6,7 @@ import {
 } from "sequelize";
 import sequelize from "../../../config/database";
 import Blog from "./blog.model";
-import BlogTag from "./tag.model";
+import BlogTag from "../micro-features/tag/tag.model";
 
 class BlogTagAssociation extends Model<
   InferAttributes<BlogTagAssociation>,

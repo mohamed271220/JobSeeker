@@ -1,7 +1,5 @@
-// this file will handle all the routes for  tags of the job board application.
 import express from "express";
-import { authenticateToken } from "../../middleware/auth-middleware";
-import { authorizeRoles } from "../../middleware/role-middleware";
+
 import {
   createTag,
   deleteTag,
@@ -9,13 +7,15 @@ import {
   getTags,
   updateTag,
 } from "./tag.controller";
+import { authenticateToken } from "../../../../middleware/auth-middleware";
+import { authorizeRoles } from "../../../../middleware/role-middleware";
 
 const router = express.Router();
 
-// admin can add tag
+// admin can add blog tag
 router.post("/", authenticateToken, authorizeRoles("admin"), createTag);
 
-// admin can edit tag
+// admin can edit blog tag
 router.put("/:tagId", authenticateToken, authorizeRoles("admin"), updateTag);
 
 // admin can delete tag

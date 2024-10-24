@@ -4,9 +4,9 @@ import {
   InferCreationAttributes,
   DataTypes,
 } from "sequelize";
-import sequelize from "../../../config/database";
-import User from "../../auth/models/user.model";
-import Industry from "../../industry/industry.model";
+import sequelize from "../../../../config/database";
+import User from "../../../auth/models/user.model";
+import Industry from "../../../industry/industry.model";
 
 class CompanyRequest extends Model<
   InferAttributes<CompanyRequest>,

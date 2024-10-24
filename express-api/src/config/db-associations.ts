@@ -20,12 +20,12 @@ import Profile from "../features/profile/models/profile.model";
 import UserRole from "../features/auth/models/user-role.model";
 import UserSkill from "../features/profile/models/user-skill.model";
 import Blog from "../features/blog/models/blog.model";
-import BlogCategory from "../features/blog/models/category.model";
+import BlogCategory from "../features/blog/micro-features/category/category.model";
 import BlogCategoryAssociation from "../features/blog/models/blog-category.model";
-import BlogTag from "../features/blog/models/tag.model";
+import BlogTag from "../features/blog/micro-features/tag/tag.model";
 import BlogTagAssociation from "../features/blog/models/blog-tag.model";
 import Company from "../features/company/models/company.model";
-import CompanyRequest from "../features/company/models/company-request.model";
+import CompanyRequest from "../features/company/micro-features/company-request/company-request.model";
 import Representative from "../features/company/models/representative.model";
 
 export const models = {

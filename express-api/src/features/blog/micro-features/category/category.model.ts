@@ -4,17 +4,17 @@ import {
   InferCreationAttributes,
   DataTypes,
 } from "sequelize";
-import sequelize from "../../../config/database";
+import sequelize from "../../../../config/database";
 
-class BlogTag extends Model<
-  InferAttributes<BlogTag>,
-  InferCreationAttributes<BlogTag>
+class BlogCategory extends Model<
+  InferAttributes<BlogCategory>,
+  InferCreationAttributes<BlogCategory>
 > {
   declare id: string;
   declare name: string;
 }
 
-BlogTag.init(
+BlogCategory.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -29,9 +29,9 @@ BlogTag.init(
   },
   {
     sequelize,
-    modelName: "BlogTag",
-    tableName: "BlogTags",
+    modelName: "BlogCategory",
+    tableName: "BlogCategories",
   }
 );
 
-export default BlogTag;
+export default BlogCategory;
