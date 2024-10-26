@@ -17,8 +17,8 @@ class CompanyRequest extends Model<
   declare name: string; // Proposed company name
   declare description?: string; // Company description
   declare industry_id?: string; // Optional industry ID
-  declare profilePicture?: string; // URL of the profile picture
-  declare websiteUrl?: string; // Company website URL
+  declare profile_picture?: string; // URL of the profile picture
+  declare website_url?: string; // Company website URL
   declare phone_number?: string; // Contact phone number
   declare address?: string; // Company address
   declare established_date?: Date; // Established date
@@ -27,6 +27,7 @@ class CompanyRequest extends Model<
   declare status: "pending" | "approved" | "rejected"; // Status of the request
   declare createdAt?: Date; // Date of request creation
   declare updatedAt?: Date; // Date of last update
+  declare deletedAt?: Date; // Optional for paranoid deleting
 }
 
 // Initialize the CompanyRequest model
@@ -62,11 +63,11 @@ CompanyRequest.init(
         key: "id",
       },
     },
-    profilePicture: {
+    profile_picture: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    websiteUrl: {
+    website_url: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
@@ -104,12 +105,18 @@ CompanyRequest.init(
       defaultValue: DataTypes.NOW,
       field: "updated_at",
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: "deleted_at",
+    },
   },
   {
     sequelize,
     modelName: "CompanyRequest",
     tableName: "CompanyRequests",
     timestamps: true,
+    paranoid: true, // Enable paranoid deleting
   }
 );
 

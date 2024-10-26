@@ -7,12 +7,14 @@ import {
 import User from "../../auth/models/user.model";
 import Industry from "../../industry/industry.model";
 import sequelize from "../../../config/database";
+import CompanyRequest from "../micro-features/company-request/company-request.model";
 
 class Company extends Model<
   InferAttributes<Company>,
   InferCreationAttributes<Company>
 > {
   declare id: string;
+  declare request_id: string;
   declare name: string;
   declare owner_id: string;
   declare description?: string;
@@ -30,6 +32,7 @@ class Company extends Model<
   declare benefits?: string; // Optional
   declare createdAt?: Date;
   declare updatedAt?: Date;
+  declare deletedAt?: Date; // Optional for paranoid deleting
 }
 
 // Initialize the Company model
@@ -39,6 +42,14 @@ Company.init(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
+    },
+    request_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: CompanyRequest,
+        key: "id",
+      },
     },
     owner_id: {
       type: DataTypes.UUID,
@@ -118,12 +129,18 @@ Company.init(
       defaultValue: DataTypes.NOW,
       field: "updated_at",
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: "deleted_at",
+    },
   },
   {
     sequelize,
     modelName: "Company",
     tableName: "Companies",
     timestamps: true,
+    paranoid: true, // Enable paranoid deleting
   }
 );
 
