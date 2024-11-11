@@ -2,7 +2,6 @@ import sequelize from "./database";
 import Application from "../features/job-application/models/application.model";
 import ApplicationAnswer from "../features/job-application/models/application-answer.model";
 import Contact from "../features/profile/models/contact-info.model";
-import DashboardData from "../features/dashboard/dashboard-data.model";
 import Education from "../features/profile/models/education.model";
 import Experience from "../features/profile/models/experience.model";
 import Industry from "../features/industry/industry.model";
@@ -39,7 +38,6 @@ export const models = {
   Company,
   CompanyRequest,
   Contact,
-  DashboardData,
   Education,
   Experience,
   Industry,
@@ -110,16 +108,11 @@ Company.belongsToMany(User, {
 });
 Company.hasMany(JobPost, { foreignKey: "company_id", as: "jobPosts" });
 Company.hasMany(Blog, { foreignKey: "company_id", as: "blogs" });
-Company.hasMany(DashboardData, {
-  foreignKey: "company_id",
-  as: "dashboardData",
-});
+
 
 // CompanyRequest associations
 CompanyRequest.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
-// DashboardData associations
-DashboardData.belongsTo(Company, { foreignKey: "company_id", as: "company" });
 
 // Industry associations
 Industry.hasMany(Company, { foreignKey: "industry_id", as: "companies" });
