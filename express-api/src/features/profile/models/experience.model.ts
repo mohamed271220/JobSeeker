@@ -1,65 +1,65 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../../../config/database";
+import { Table, Column, Model, ForeignKey, DataType, BelongsTo } from 'sequelize-typescript';
+import Profile from './profile.model';
 
+@Table({
+  tableName: 'Experiences',
+  timestamps: true,
+})
 class Experience extends Model {
-  declare id: string;
-  declare user_id: string; // FK to Profile
-  declare role: string;
-  declare company: string;
-  declare startDate: Date;
-  declare endDate: Date;
-  declare createdAt?: Date;
-  declare updatedAt?: Date;
-}
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
+ declare id: string;
 
-Experience.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    user_id: {
-      type: DataTypes.UUID,
-      references: {
-        model: "Profiles",
-        key: "user_id",
-      },
-      allowNull: false,
-    },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    company: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    startDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    endDate: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "created_at",
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "updated_at",
-    },
-  },
-  {
-    sequelize,
-    modelName: "Experience",
-    tableName: "Experiences",
-    timestamps: true,
-  }
-);
+  @ForeignKey(() => Profile)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+ declare user_id: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare role: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare company: string;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: false,
+  })
+  declare startDate: Date;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  declare endDate: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: 'created_at',
+  })
+  declare createdAt: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: 'updated_at',
+  })
+  declare updatedAt: Date;
+
+  @BelongsTo(() => Profile)
+  declare profile: Profile;
+}
 
 export default Experience;

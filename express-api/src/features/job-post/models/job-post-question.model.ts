@@ -1,53 +1,61 @@
 import {
+  Table,
+  Column,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-} from "sequelize";
+  DataType,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+} from "sequelize-typescript";
 import sequelize from "../../../config/database";
+import JobPost from "./job-post.model";
+import ApplicationAnswer from "../../job-application/models/application-answer.model";
 
-class JobPostQuestion extends Model<
-  InferAttributes<JobPostQuestion>,
-  InferCreationAttributes<JobPostQuestion>
-> {
+@Table({
+  tableName: "JobPostQuestions",
+  timestamps: true,
+})
+class JobPostQuestion extends Model {
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4,
+  })
   declare id: string;
+
+  @ForeignKey(() => JobPost)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
   declare job_post_id: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
   declare question: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+  })
   declare createdAt?: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+  })
   declare updatedAt?: Date;
+
+  @BelongsTo(() => JobPost, { foreignKey: "job_post_id", as: "jobPost" })
+  declare jobPost: JobPost;
+
+  @HasMany(() => ApplicationAnswer, {
+    foreignKey: "question_id",
+    as: "answers",
+  })
+  declare answers: ApplicationAnswer[];
 }
-
-JobPostQuestion.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-    },
-    job_post_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    question: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-  },
-  {
-    sequelize,
-    modelName: "JobPostQuestion",
-    tableName: "JobPostQuestions",
-  }
-);
-
-// Define associations
 
 export default JobPostQuestion;

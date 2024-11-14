@@ -1,64 +1,63 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../../../config/database";
+import { Table, Column, Model, ForeignKey, DataType, BelongsTo } from 'sequelize-typescript';
+import Profile from './profile.model';
 
+@Table({
+  tableName: 'Testimonials',
+  timestamps: true,
+})
 class Testimonial extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
   declare id: string;
-  declare content: string; // The testimonial content
-  declare author: string; // The name of the author
-  declare givenBy: string; // FK to Profile who gave the testimonial
-  declare receivedBy: string; // FK to Profile who received the testimonial
-  declare createdAt?: Date;
-  declare updatedAt?: Date;
-}
 
-Testimonial.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    content: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    author: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    givenBy: {
-      type: DataTypes.UUID,
-      references: {
-        model: "Profiles",
-        key: "user_id",
-      },
-      allowNull: false,
-    },
-    receivedBy: {
-      type: DataTypes.UUID,
-      references: {
-        model: "Profiles",
-        key: "user_id",
-      },
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "created_at",
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "updated_at",
-    },
-  },
-  {
-    sequelize,
-    modelName: "Testimonial",
-    tableName: "Testimonials",
-    timestamps: true,
-  }
-);
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
+  declare content: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare author: string;
+
+  @ForeignKey(() => Profile)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  declare givenBy: string;
+
+  @ForeignKey(() => Profile)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  declare receivedBy: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: 'created_at',
+  })
+  declare createdAt: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: 'updated_at',
+  })
+  declare updatedAt: Date;
+
+  @BelongsTo(() => Profile, 'givenBy')
+  declare  givenByProfile: Profile;
+
+  @BelongsTo(() => Profile, 'receivedBy')
+  declare receivedByProfile: Profile;
+}
 
 export default Testimonial;

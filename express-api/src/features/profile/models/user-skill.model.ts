@@ -1,62 +1,60 @@
 import {
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  Table,
+  Column,
   Model,
-} from "sequelize";
-import sequelize from "../../../config/database";
+  DataType,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import Profile from "./profile.model";
+import Skill from "../../skill/skill.model";
+import User from "../../auth/models/user.model";
 
-class UserSkill extends Model<
-  InferAttributes<UserSkill>,
-  InferCreationAttributes<UserSkill>
-> {
+@Table({
+  tableName: "UserSkills",
+  timestamps: true,
+})
+class UserSkill extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
   declare id: string;
-  declare user_id: string;
-  declare skill_id: string;
-  declare createdAt?: Date;
-  declare updatedAt?: Date;
-}
 
-UserSkill.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    user_id: {
-      type: DataTypes.UUID,
-      references: {
-        model: "Profiles",
-        key: "user_id",
-      },
-      allowNull: false,
-    },
-    skill_id: {
-      type: DataTypes.UUID,
-      references: {
-        model: "Skills",
-        key: "id",
-      },
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "created_at",
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "updated_at",
-    },
-  },
-  {
-    sequelize,
-    modelName: "UserSkill",
-    tableName: "UserSkills",
-    timestamps: true,
-  }
-);
+  @ForeignKey(() => Profile)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  declare profile_id: string;
+
+  @ForeignKey(() => Skill)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  declare skill_id: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: "created_at",
+  })
+  declare createdAt?: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: "updated_at",
+  })
+  declare updatedAt?: Date;
+
+  @BelongsTo(() => Profile, { foreignKey: "profile_id", as: "profile" })
+  declare profile: Profile;
+
+  @BelongsTo(() => Skill, { foreignKey: "skill_id", as: "skill" })
+  declare skill: Skill;
+}
 
 export default UserSkill;

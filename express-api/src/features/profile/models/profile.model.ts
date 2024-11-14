@@ -1,51 +1,63 @@
 import {
+  Table,
+  Column,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-} from "sequelize";
-import sequelize from "../../../config/database";
+  ForeignKey,
+  DataType,
+  HasMany,
+  BelongsTo,
+} from "sequelize-typescript";
 import User from "../../auth/models/user.model";
+import Experience from "./experience.model";
+import Education from "./education.model";
+import Project from "./project.model";
+import UserSkill from "./user-skill.model";
+import Testimonial from "./testimonial.model";
 
-class Profile extends Model<
-  InferAttributes<Profile>,
-  InferCreationAttributes<Profile>
-> {
-  declare user_id: string; // User ID as a foreign key
-  declare createdAt?: Date;
-  declare updatedAt?: Date;
+@Table({
+  tableName: "Profiles",
+  timestamps: true,
+})
+class Profile extends Model {
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    onDelete: "CASCADE",
+  })
+  declare user_id: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: "created_at",
+  })
+  declare createdAt: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: "updated_at",
+  })
+  declare updatedAt: Date;
+
+  @BelongsTo(() => User)
+  declare user: User;
+
+  @HasMany(() => Experience)
+  declare experiences: Experience[];
+
+  @HasMany(() => Education)
+  declare educations: Education[];
+
+  @HasMany(() => Project)
+  declare projects: Project[];
+
+  @HasMany(() => UserSkill)
+  declare userSkills: UserSkill[];
+
+  @HasMany(() => Testimonial)
+  declare testimonials: Testimonial[];
 }
 
-// Initialize the Profile model
-Profile.init(
-  {
-    user_id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      references: {
-        model: User,
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "created_at",
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "updated_at",
-    },
-  },
-  {
-    sequelize,
-    modelName: "Profile",
-    tableName: "Profiles",
-    timestamps: true,
-  }
-);
-
-// Define associations
 export default Profile;

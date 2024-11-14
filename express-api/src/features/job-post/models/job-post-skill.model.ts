@@ -1,37 +1,39 @@
 import {
+  Table,
+  Column,
   Model,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-} from "sequelize";
-import sequelize from "../../../config/database";
+  DataType,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import JobPost from "./job-post.model";
+import Skill from "../../skill/skill.model";
 
-class JobPostSkill extends Model<
-  InferAttributes<JobPostSkill>,
-  InferCreationAttributes<JobPostSkill>
-> {
+@Table({
+  tableName: "JobPostSkills",
+})
+class JobPostSkill extends Model {
+  @ForeignKey(() => JobPost)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+    primaryKey: true,
+  })
   declare job_post_id: string;
-  declare skill_id: string;
-}
 
-JobPostSkill.init(
-  {
-    job_post_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      primaryKey: true,
-    },
-    skill_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      primaryKey: true,
-    },
-  },
-  {
-    sequelize,
-    tableName: "JobPostSkills",
-    modelName: "JobPostSkill",
-  }
-);
+  @ForeignKey(() => Skill)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+    primaryKey: true,
+  })
+  declare skill_id: string;
+
+  @BelongsTo(() => JobPost, { foreignKey: "job_post_id", as: "jobPost" })
+  declare jobPost: JobPost;
+
+  @BelongsTo(() => Skill, { foreignKey: "skill_id", as: "skill" })
+  declare skill: Skill;
+}
 
 export default JobPostSkill;

@@ -1,38 +1,35 @@
 import {
+  Table,
+  Column,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-} from "sequelize";
-import sequelize from "../../config/database";
+  DataType,
+  HasMany,
+  BelongsToMany,
+} from "sequelize-typescript";
+import User from "../auth/models/user.model";
+import UserRole from "../auth/models/user-role.model";
 
-class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
+@Table({
+  tableName: "Roles",
+  timestamps: false, // No createdAt or updatedAt fields in this table
+})
+class Role extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
   declare id: string;
+
+  @Column({
+    type: DataType.STRING(255),
+    allowNull: false,
+    unique: true,
+  })
   declare name: string;
+
+  @BelongsToMany(() => User, () => UserRole)
+  declare userRoles: UserRole[];
 }
-
-// Initialize the Role model
-Role.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: true,
-    },
-  },
-  {
-    sequelize,
-    modelName: "Role",
-    tableName: "Roles",
-    timestamps: false, // No createdAt or updatedAt fields in this table
-  }
-);
-
-// Define associations
 
 export default Role;

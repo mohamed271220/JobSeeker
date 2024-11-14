@@ -1,101 +1,88 @@
 import {
+  Table,
+  Column,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-  BelongsToManyGetAssociationsMixin,
-} from "sequelize";
-import sequelize from "../../../config/database";
+  DataType,
+  HasOne,
+  HasMany,
+  BelongsToMany,
+  ForeignKey,
+} from "sequelize-typescript";
 import Role from "../../role/role.model";
+import Profile from "../../profile/models/profile.model";
+import Representative from "../../company/models/representative.model";
+import Application from "../../job-application/models/application.model";
+import UserRole from "./user-role.model";
+import Contact from "../../profile/models/contact-info.model";
+import Company from "../../company/models/company.model";
+import CompanyRequest from "../../company/micro-features/company-request/company-request.model";
+import UserSkill from "../../profile/models/user-skill.model";
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+@Table({
+  tableName: "Users",
+  timestamps: true,
+})
+class User extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
   declare id: string;
-  declare email: string;
-  declare password: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   declare first_name: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   declare last_name: string;
-  declare role_id?: string; // Optional as it may be null
-  declare profile_picture?: string; // Optional
-  declare resume?: string; // Optional
-  declare title?: string; // Optional
-  declare bio?: string; // Optional
-  declare resetPasswordToken: string | null;
-  declare resetPasswordExpires: Date | null;
-  declare createdAt?: Date;
-  declare updatedAt?: Date;
-  public getRoles!: BelongsToManyGetAssociationsMixin<Role>;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+  })
+  declare email: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare password: string;
+
+  @ForeignKey(() => Role)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  declare role_id: string;
+
+  @HasOne(() => Profile)
+  declare profile: Profile;
+
+  @HasMany(() => Representative)
+  declare representatives: Representative[];
+
+  @HasMany(() => Application)
+  declare applications: Application[];
+
+  @BelongsToMany(() => Role, () => UserRole)
+  declare roles: Role[];
+
+  @HasOne(() => Contact)
+  declare contact: Contact;
+
+  @HasMany(() => Company)
+  declare companies: Company[];
+
+  @HasMany(() => CompanyRequest)
+  declare companyRequests: CompanyRequest[];
+
 }
-
-// Initialize the User model
-User.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    email: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: true,
-    },
-    resetPasswordToken: {
-      type: DataTypes.STRING,
-      allowNull: true, // This field can be null
-      defaultValue: null,
-    },
-    resetPasswordExpires: {
-      type: DataTypes.DATE,
-      allowNull: true, // This field can be null
-      defaultValue: null,
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    first_name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    last_name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    profile_picture: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    resume: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    title: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
-    bio: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "created_at",
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "updated_at",
-    },
-  },
-  {
-    sequelize,
-    modelName: "User",
-    tableName: "Users",
-    timestamps: true,
-  }
-);
-
-// Define associations
 
 export default User;

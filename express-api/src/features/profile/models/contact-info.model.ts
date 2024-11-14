@@ -1,67 +1,78 @@
 import {
+  Table,
+  Column,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-} from "sequelize";
-import sequelize from "../../../config/database";
+  DataType,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import User from "../../auth/models/user.model";
 
-class Contact extends Model<
-  InferAttributes<Contact>,
-  InferCreationAttributes<Contact>
-> {
+@Table({
+  tableName: "Contacts",
+  timestamps: true,
+})
+class Contact extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
   declare id: string;
-  declare user_id: string; // Foreign key linking to User
-  declare phone_number?: string; // Optional
-  declare address?: string; // Optional
-  declare linkedin_url?: string; // Optional
-  declare github_url?: string; // Optional
-  declare website_url?: string; // Optional
-}
 
-// Initialize the Contact model
-Contact.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    user_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: "Users", // Name of the User table
-        key: "id",
-      },
-    },
-    phone_number: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
-    },
-    address: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    linkedin_url: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    github_url: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    website_url: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-  },
-  {
-    sequelize,
-    modelName: "Contact",
-    tableName: "Contacts",
-    timestamps: true,
-  }
-);
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  declare user_id: string;
+
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: true,
+  })
+  declare phone_number?: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  declare address?: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  declare linkedin_url?: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  declare github_url?: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  declare website_url?: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: "created_at",
+  })
+  declare createdAt?: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: "updated_at",
+  })
+  declare updatedAt?: Date;
+
+  @BelongsTo(() => User, { foreignKey: "user_id", as: "user" })
+  declare user: User;
+}
 
 export default Contact;

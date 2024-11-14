@@ -22,9 +22,9 @@ router.get(
 
 router.get("/refresh-token", authenticateToken, authController.refreshToken);
 
-router.post("/forgot-password", authController.forgotPassword);
+// router.post("/forgot-password", authController.forgotPassword);
 
-router.post("/reset-password/:token", authController.resetPassword);
+// router.post("/reset-password/:token", authController.resetPassword);
 
 router.post(
   "/change-password",

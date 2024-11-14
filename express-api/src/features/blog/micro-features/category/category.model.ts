@@ -1,37 +1,28 @@
-import {
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-} from "sequelize";
-import sequelize from "../../../../config/database";
+import { Table, Column, Model, DataType, HasMany } from "sequelize-typescript";
+import BlogCategoryAssociation from "../../models/blog-category.model";
 
-class BlogCategory extends Model<
-  InferAttributes<BlogCategory>,
-  InferCreationAttributes<BlogCategory>
-> {
+@Table({
+  tableName: "BlogCategories",
+})
+class BlogCategory extends Model {
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4,
+  })
   declare id: string;
-  declare name: string;
-}
 
-BlogCategory.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-    },
-    name: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    modelName: "BlogCategory",
-    tableName: "BlogCategories",
-  }
-);
+  @Column({
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false,
+  })
+  declare name: string;
+
+  @HasMany(() => BlogCategoryAssociation, {
+    foreignKey: "category_id",
+  })
+  declare blogCategories: BlogCategoryAssociation[];
+}
 
 export default BlogCategory;

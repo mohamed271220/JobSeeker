@@ -131,11 +131,17 @@ export const login = async (
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) throw new CustomError("Invalid credentials", 400);
 
-    const roles = await user.getRoles();
+    // const roles = await user.getRoles();
+    const userRoles = (await UserRole.findAll({
+      where: { user_id: user.id },
+      include: [{ model: Role, as: "role" }],
+    })) as UserRole[];
+    if (!userRoles) throw new CustomError("User roles not found", 404);
+    const roles = userRoles.map((userRole) => userRole.role.name);
 
     const token = generateToken({
       id: user.id,
-      roles: roles.map((role) => role.name),
+      roles: roles,
     });
     const refreshToken = generateRefreshToken({ id: user.id });
 
@@ -228,88 +234,88 @@ export const refreshToken = async (
   }
 };
 
-export const forgotPassword = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { email } = req.body;
+// export const forgotPassword = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   const { email } = req.body;
 
-  try {
-    const user = await User.findOne({ where: { email } });
+//   try {
+//     const user = await User.findOne({ where: { email } });
 
-    if (!user) {
-      throw new CustomError("User not found", 404);
-    }
+//     if (!user) {
+//       throw new CustomError("User not found", 404);
+//     }
 
-    const token = crypto.randomBytes(32).toString("hex");
-    const tokenExpiration = Date.now() + 3600000; // 1 hour from now
+//     const token = crypto.randomBytes(32).toString("hex");
+//     const tokenExpiration = Date.now() + 3600000; // 1 hour from now
 
-    user.resetPasswordToken = token;
-    user.resetPasswordExpires = new Date(tokenExpiration);
-    await user.save();
+//     user.resetPasswordToken = token;
+//     user.resetPasswordExpires = new Date(tokenExpiration);
+//     await user.save();
 
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+//     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
 
-    const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+//     const transporter = nodemailer.createTransport({
+//       service: "Gmail",
+//       auth: {
+//         user: process.env.EMAIL_USER,
+//         pass: process.env.EMAIL_PASS,
+//       },
+//     });
 
-    const mailOptions = {
-      to: user.email,
-      from: "password-reset@your-app.com",
-      subject: "Password Reset",
-      text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
-      Please click on the following link, or paste this into your browser to complete the process:\n\n
-      ${resetLink}\n\n
-      If you did not request this, please ignore this email and your password will remain unchanged.\n`,
-    };
+//     const mailOptions = {
+//       to: user.email,
+//       from: "password-reset@your-app.com",
+//       subject: "Password Reset",
+//       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+//       Please click on the following link, or paste this into your browser to complete the process:\n\n
+//       ${resetLink}\n\n
+//       If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+//     };
 
-    await transporter.sendMail(mailOptions);
-    res.status(200).send("Password reset email sent");
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-};
+//     await transporter.sendMail(mailOptions);
+//     res.status(200).send("Password reset email sent");
+//   } catch (error) {
+//     console.log(error);
+//     next(error);
+//   }
+// };
 
-export const resetPassword = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { token } = req.params;
-  const { password } = req.body;
+// export const resetPassword = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   const { token } = req.params;
+//   const { password } = req.body;
 
-  try {
-    const user = await User.findOne({
-      where: {
-        resetPasswordToken: token,
-        resetPasswordExpires: { [Op.gt]: Date.now() }, // Token is still valid
-      },
-    });
+//   try {
+//     const user = await User.findOne({
+//       where: {
+//         resetPasswordToken: token,
+//         resetPasswordExpires: { [Op.gt]: Date.now() }, // Token is still valid
+//       },
+//     });
 
-    if (!user) {
-      throw new CustomError("Invalid or expired token", 400);
-    }
+//     if (!user) {
+//       throw new CustomError("Invalid or expired token", 400);
+//     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+//     const hashedPassword = await bcrypt.hash(password, 10);
 
-    user.password = hashedPassword;
-    user.resetPasswordToken = null;
-    user.resetPasswordExpires = null;
-    await user.save();
+//     user.password = hashedPassword;
+//     user.resetPasswordToken = null;
+//     user.resetPasswordExpires = null;
+//     await user.save();
 
-    res.status(200).send("Password has been reset");
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-};
+//     res.status(200).send("Password has been reset");
+//   } catch (error) {
+//     console.log(error);
+//     next(error);
+//   }
+// };
 
 export const changePassword = async (
   req: userRequest,

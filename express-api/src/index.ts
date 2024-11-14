@@ -11,7 +11,6 @@ import hpp from "hpp";
 import xss from "xss-clean";
 import rateLimit from "express-rate-limit";
 import { errorHandler } from "./utils/error-handler";
-import "./config/db-associations"; // Import the models and relationships
 import routes from "./routes";
 import swaggerRouter from "./config/swagger";
 dotenv.config();
@@ -61,19 +60,6 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-dbConnection
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-    return dbConnection.sync(); // This will create the tables in your database
-  })
-  .then(() => {
-    console.log("Database synchronized successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
-
 // Routes
 app.use("/api/v1", routes);
 
@@ -82,7 +68,16 @@ app.use(errorHandler);
 // Swagger docs route
 app.use("/api/v1/official-docs/express-api-docs", swaggerRouter);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Synchronize the database and start the server
+dbConnection
+  .sync({ alter: true })
+  .then(() => {
+    console.log("Database synchronized");
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Unable to synchronize the database:", error);
+  });

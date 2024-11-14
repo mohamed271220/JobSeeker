@@ -1,41 +1,31 @@
-import {
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-} from "sequelize";
-import sequelize from "../../config/database";
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import Company from '../company/models/company.model';
+import JobPost from '../job-post/models/job-post.model';
 
-class Industry extends Model<
-  InferAttributes<Industry>,
-  InferCreationAttributes<Industry>
-> {
+@Table({
+  tableName: 'Industries',
+  timestamps: false,
+})
+class Industry extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
   declare id: string;
+
+  @Column({
+    type: DataType.STRING(255),
+    allowNull: false,
+    unique: true,
+  })
   declare name: string;
+
+  @HasMany(() => Company, { foreignKey: 'industry_id', as: 'companies' })
+  declare companies: Company[];
+
+  @HasMany(() => JobPost, { foreignKey: 'industry_id', as: 'jobPosts' })
+  declare jobPosts: JobPost[];
 }
-
-// Initialize the Industry model
-Industry.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: true,
-    },
-  },
-  {
-    sequelize,
-    modelName: "Industry",
-    tableName: "Industries",
-    timestamps: false,
-  }
-);
-
-// Define associations
 
 export default Industry;

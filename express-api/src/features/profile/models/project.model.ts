@@ -1,70 +1,78 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../../../config/database";
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  DataType,
+  BelongsTo,
+} from "sequelize-typescript";
+import Profile from "./profile.model";
 
+@Table({
+  tableName: "Projects",
+  timestamps: true,
+})
 class Project extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
   declare id: string;
-  declare user_id: string; // FK to Profile
-  declare title: string;
-  declare description: string;
-  declare startDate: Date;
-  declare endDate?: Date; // Optional
-  declare link?: string; // Optional link to the project
-  declare createdAt?: Date;
-  declare updatedAt?: Date;
-}
 
-Project.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    user_id: {
-      type: DataTypes.UUID,
-      references: {
-        model: "Profiles",
-        key: "user_id",
-      },
-      allowNull: false,
-    },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    startDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    endDate: {
-      type: DataTypes.DATE,
-      allowNull: true, // This field can be null
-    },
-    link: {
-      type: DataTypes.STRING,
-      allowNull: true, // Optional link to the project
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "created_at",
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      field: "updated_at",
-    },
-  },
-  {
-    sequelize,
-    modelName: "Project",
-    tableName: "Projects",
-    timestamps: true,
-  }
-);
+  @ForeignKey(() => Profile)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  declare user_id: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare title: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
+  declare description: string;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: false,
+  })
+  declare startDate: Date;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  declare endDate: Date;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  declare link: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: "created_at",
+  })
+  declare createdAt: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+    field: "updated_at",
+  })
+  declare updatedAt: Date;
+
+  @BelongsTo(() => Profile)
+  declare profile: Profile;
+}
 
 export default Project;

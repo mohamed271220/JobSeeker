@@ -1,40 +1,39 @@
 import {
+  Table,
+  Column,
   Model,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-} from "sequelize";
-import sequelize from "../../../config/database";
+  DataType,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import JobPost from "./job-post.model";
+import Tag from "../../JobTag/tag.model";
 
-
-class JobPostTag extends Model<
-  InferAttributes<JobPostTag>,
-  InferCreationAttributes<JobPostTag>
-> {
+@Table({
+  tableName: "JobPostTags",
+})
+class JobPostTag extends Model {
+  @ForeignKey(() => JobPost)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+    primaryKey: true,
+  })
   declare job_post_id: string;
+
+  @ForeignKey(() => Tag)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+    primaryKey: true,
+  })
   declare tag_id: string;
+
+  @BelongsTo(() => JobPost, { foreignKey: "job_post_id", as: "jobPost" })
+  declare jobPost: JobPost;
+
+  @BelongsTo(() => Tag, { foreignKey: "tag_id", as: "tag" })
+  declare tag: Tag;
 }
-
-JobPostTag.init(
-  {
-    job_post_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      primaryKey: true,
-    },
-    tag_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      primaryKey: true,
-    },
-  },
-  {
-    sequelize,
-    tableName: "JobPostTags",
-    modelName: "JobPostTag",
-  }
-);
-
-// Associations
 
 export default JobPostTag;

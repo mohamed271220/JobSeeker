@@ -1,53 +1,64 @@
 import {
+  Table,
+  Column,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-} from "sequelize";
+  DataType,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
 import sequelize from "../../../config/database";
+import Application from "./application.model";
+import JobPostQuestion from "../../job-post/models/job-post-question.model";
 
-class ApplicationAnswer extends Model<
-  InferAttributes<ApplicationAnswer>,
-  InferCreationAttributes<ApplicationAnswer>
-> {
+@Table({
+  tableName: "ApplicationAnswers",
+  timestamps: true,
+})
+class ApplicationAnswer extends Model {
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4,
+  })
   declare id: string;
+
+  @ForeignKey(() => Application)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
   declare application_id: string;
+
+  @ForeignKey(() => JobPostQuestion)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
   declare question_id: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
   declare answer: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+  })
   declare createdAt?: Date;
+
+  @BelongsTo(() => Application, {
+    foreignKey: "application_id",
+    as: "application",
+  })
+  declare application: Application;
+
+  @BelongsTo(() => JobPostQuestion, {
+    foreignKey: "question_id",
+    as: "question",
+  })
+  declare question: JobPostQuestion;
 }
-
-ApplicationAnswer.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-    },
-    application_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    question_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    answer: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-  },
-  {
-    sequelize,
-    modelName: "ApplicationAnswer",
-    tableName: "ApplicationAnswers",
-  }
-);
-
-// Define associations
 
 export default ApplicationAnswer;

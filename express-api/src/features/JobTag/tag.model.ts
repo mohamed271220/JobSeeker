@@ -1,14 +1,14 @@
 import { Table, Column, Model, DataType, HasMany } from "sequelize-typescript";
-import BlogTagAssociation from "../../models/blog-tag.model";
+import JobPostTag from "../job-post/models/job-post-tag.model";
 
 @Table({
-  tableName: "BlogTags",
+  tableName: "Tags",
 })
-class BlogTag extends Model {
+class Tag extends Model {
   @Column({
     type: DataType.UUID,
-    primaryKey: true,
     defaultValue: DataType.UUIDV4,
+    primaryKey: true,
   })
   declare id: string;
 
@@ -19,8 +19,8 @@ class BlogTag extends Model {
   })
   declare name: string;
 
-  @HasMany(() => BlogTagAssociation, { foreignKey: "tag_id", as: "blogTags" })
-  declare blogTags: BlogTagAssociation[];
+  @HasMany(() => JobPostTag)
+  declare jobPostTags: JobPostTag[];
 }
 
-export default BlogTag;
+export default Tag;

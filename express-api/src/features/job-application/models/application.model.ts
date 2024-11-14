@@ -1,68 +1,73 @@
-import {
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes,
-} from "sequelize";
-import sequelize from "../../../config/database";
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
+import sequelize from '../../../config/database';
+import JobPost from '../../job-post/models/job-post.model';
+import User from '../../auth/models/user.model';
+import ApplicationAnswer from './application-answer.model';
 
-class Application extends Model<
-  InferAttributes<Application>,
-  InferCreationAttributes<Application>
-> {
+@Table({
+  tableName: 'Applications',
+  timestamps: true,
+})
+class Application extends Model {
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4,
+  })
   declare id: string;
+
+  @ForeignKey(() => JobPost)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
   declare job_post_id: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
   declare user_id: string;
-  declare submitted_at?: Date;
-  declare reviewed?: boolean;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+  })
+  declare submitted_at: Date;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  declare reviewed: boolean;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
   declare feedback?: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+  })
   declare createdAt?: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+  })
   declare updatedAt?: Date;
+
+  @BelongsTo(() => JobPost, { foreignKey: 'job_post_id', as: 'jobPost' })
+ declare jobPost: JobPost;
+
+  @BelongsTo(() => User, { foreignKey: 'user_id', as: 'user' })
+ declare user: User;
+
+  @HasMany(() => ApplicationAnswer, { foreignKey: 'application_id', as: 'answers' })
+ declare answers: ApplicationAnswer[];
 }
-
-Application.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-    },
-    job_post_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    user_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    submitted_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    reviewed: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    feedback: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-  },
-  {
-    sequelize,
-    modelName: "Application",
-    tableName: "Applications",
-  }
-);
-
-// Define associations
 
 export default Application;
