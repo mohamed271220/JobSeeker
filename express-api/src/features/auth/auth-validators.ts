@@ -3,7 +3,8 @@ import { body, validationResult } from "express-validator";
 import { handleValidationErrors } from "../../utils/report-validators-errors";
 
 export const validateSignup = [
-  body("username").notEmpty().withMessage("Username is required"),
+  body("first_name").notEmpty().withMessage("First_name is required"),
+  body("last_name").notEmpty().withMessage("Last_name is required"),
   body("email").isEmail().withMessage("Invalid email format"),
   body("password")
     .notEmpty()
@@ -30,10 +31,6 @@ export const validateLogin = [
     .withMessage("Email is required if username is not provided")
     .isEmail()
     .withMessage("Invalid email format"),
-  body("username")
-    .if(body("email").not().exists())
-    .notEmpty()
-    .withMessage("Username is required if email is not provided"),
   body("password").notEmpty().withMessage("Password is required"),
   handleValidationErrors,
 ];

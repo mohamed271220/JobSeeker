@@ -55,6 +55,8 @@ export const signup = async (
     if (!role) {
       throw new CustomError("Role not found", 404);
     }
+    console.log(role);
+
     const savedUser = await User.create(
       {
         id,
@@ -65,6 +67,7 @@ export const signup = async (
       },
       { transaction }
     );
+
     await UserRole.create(
       {
         user_id: savedUser.id,

@@ -9,7 +9,7 @@ import {
 } from "sequelize-typescript";
 import sequelize from "../../../config/database";
 import JobPost from "./job-post.model";
-import ApplicationAnswer from "../../job-application/models/application-answer.model";
+import ApplicationAnswer from "./application-answer.model";
 
 @Table({
   tableName: "JobPostQuestions",

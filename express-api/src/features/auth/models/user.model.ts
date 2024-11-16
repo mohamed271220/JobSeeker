@@ -11,7 +11,7 @@ import {
 import Role from "../../role/role.model";
 import Profile from "../../profile/models/profile.model";
 import Representative from "../../company/models/representative.model";
-import Application from "../../job-application/models/application.model";
+import Application from "../../job-post/models/application.model";
 import UserRole from "./user-role.model";
 import Contact from "../../profile/models/contact-info.model";
 import Company from "../../company/models/company.model";
@@ -55,13 +55,6 @@ class User extends Model {
   })
   declare password: string;
 
-  @ForeignKey(() => Role)
-  @Column({
-    type: DataType.UUID,
-    allowNull: false,
-  })
-  declare role_id: string;
-
   @HasOne(() => Profile)
   declare profile: Profile;
 
@@ -82,7 +75,6 @@ class User extends Model {
 
   @HasMany(() => CompanyRequest)
   declare companyRequests: CompanyRequest[];
-
 }
 
 export default User;

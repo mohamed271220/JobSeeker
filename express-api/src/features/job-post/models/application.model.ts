@@ -1,11 +1,19 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
-import sequelize from '../../../config/database';
-import JobPost from '../../job-post/models/job-post.model';
-import User from '../../auth/models/user.model';
-import ApplicationAnswer from './application-answer.model';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+} from "sequelize-typescript";
+import sequelize from "../../../config/database";
+import JobPost from "./job-post.model";
+import User from "../../auth/models/user.model";
+import ApplicationAnswer from "./application-answer.model";
 
 @Table({
-  tableName: 'Applications',
+  tableName: "Applications",
   timestamps: true,
 })
 class Application extends Model {
@@ -60,14 +68,17 @@ class Application extends Model {
   })
   declare updatedAt?: Date;
 
-  @BelongsTo(() => JobPost, { foreignKey: 'job_post_id', as: 'jobPost' })
- declare jobPost: JobPost;
+  @BelongsTo(() => JobPost, { foreignKey: "job_post_id", as: "jobPost" })
+  declare jobPost: JobPost;
 
-  @BelongsTo(() => User, { foreignKey: 'user_id', as: 'user' })
- declare user: User;
+  @BelongsTo(() => User, { foreignKey: "user_id", as: "user" })
+  declare user: User;
 
-  @HasMany(() => ApplicationAnswer, { foreignKey: 'application_id', as: 'answers' })
- declare answers: ApplicationAnswer[];
+  @HasMany(() => ApplicationAnswer, {
+    foreignKey: "application_id",
+    as: "answers",
+  })
+  declare answers: ApplicationAnswer[];
 }
 
 export default Application;

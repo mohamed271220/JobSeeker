@@ -1,5 +1,5 @@
-import Application from "../features/job-application/models/application.model";
-import ApplicationAnswer from "../features/job-application/models/application-answer.model";
+import Application from "../features/job-post/models/application.model";
+import ApplicationAnswer from "../features/job-post/models/application-answer.model";
 import Contact from "../features/profile/models/contact-info.model";
 import Education from "../features/profile/models/education.model";
 import Experience from "../features/profile/models/experience.model";

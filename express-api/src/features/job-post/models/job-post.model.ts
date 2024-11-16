@@ -12,7 +12,7 @@ import Company from "../../company/models/company.model";
 import Industry from "../../industry/industry.model";
 import JobPostSkill from "./job-post-skill.model";
 import JobPostTag from "./job-post-tag.model";
-import Application from "../../job-application/models/application.model";
+import Application from "./application.model";
 import JobPostQuestion from "./job-post-question.model";
 
 @Table({

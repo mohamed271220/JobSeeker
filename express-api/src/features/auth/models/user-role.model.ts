@@ -1,4 +1,10 @@
-import { Table, Column, Model, ForeignKey } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
 import User from "./user.model";
 import Role from "../../role/role.model";
 
@@ -23,6 +29,12 @@ class UserRole extends Model {
     onDelete: "CASCADE",
   })
   declare role_id: string;
+
+  @BelongsTo(() => User)
+  declare user: User;
+
+  @BelongsTo(() => Role)
+  declare role: Role;
 }
 
 export default UserRole;
