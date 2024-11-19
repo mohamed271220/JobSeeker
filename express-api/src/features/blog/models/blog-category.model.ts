@@ -1,39 +1,28 @@
-import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  ForeignKey,
-  BelongsTo,
-} from "sequelize-typescript";
-import sequelize from "../../../config/database";
-import Blog from "./blog.model";
-import BlogCategory from "../micro-features/category/category.model";
+import { Table, Column, Model, DataType, HasMany } from "sequelize-typescript";
+import BlogCategoryAssociation from "./blog-category-mapping.model";
 
 @Table({
-  tableName: "BlogCategoryAssociations",
-  timestamps: false,
+  tableName: "BlogCategories",
 })
-class BlogCategoryAssociation extends Model {
-  @ForeignKey(() => Blog)
+class BlogCategory extends Model {
   @Column({
     type: DataType.UUID,
-    allowNull: false,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4,
   })
-  declare blog_id: string;
+  declare id: string;
 
-  @ForeignKey(() => BlogCategory)
   @Column({
-    type: DataType.UUID,
+    type: DataType.STRING,
+    unique: true,
     allowNull: false,
   })
-  declare category_id: string;
+  declare name: string;
 
-  @BelongsTo(() => Blog, { foreignKey: "blog_id", as: "blog" })
-  declare blog: Blog;
-
-  @BelongsTo(() => BlogCategory, { foreignKey: "category_id", as: "category" })
-  declare category: BlogCategory;
+  @HasMany(() => BlogCategoryAssociation, {
+    foreignKey: "category_id",
+  })
+  declare blogCategories: BlogCategoryAssociation[];
 }
 
-export default BlogCategoryAssociation;
+export default BlogCategory;

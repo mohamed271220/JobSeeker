@@ -6,7 +6,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from "sequelize-typescript";
-import User from "../../../auth/models/user.model";
+import User from "../../auth/models/user.model";
 
 @Table({
   tableName: "CompanyRequests",

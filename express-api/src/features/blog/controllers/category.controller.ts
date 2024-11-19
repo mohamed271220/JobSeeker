@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
-import { CategoryService } from "./category.service";
-import { userRequest } from "../../../../interfaces";
-import { CustomError } from "../../../../utils/CustomError";
+import { CategoryService } from "../services/category.service";
+import { userRequest } from "../../../interfaces";
+import { CustomError } from "../../../utils/CustomError";
 
 const categoryService = new CategoryService();
 
@@ -14,7 +14,9 @@ export const createCategory = async (
   try {
     const { name } = req.body;
     const category = await categoryService.createCategory({ name });
-    res.status(201).json({ message: "Added the category successfully", category });
+    res
+      .status(201)
+      .json({ message: "Added the category successfully", category });
   } catch (error) {
     next(error);
   }
@@ -27,8 +29,13 @@ export const updateCategory = async (
 ) => {
   try {
     const { name } = req.body;
-    const category = await categoryService.updateCategory(req.params.categoryId, { name });
-    res.status(200).json({ message: "Updated the category successfully", category });
+    const category = await categoryService.updateCategory(
+      req.params.categoryId,
+      { name }
+    );
+    res
+      .status(200)
+      .json({ message: "Updated the category successfully", category });
   } catch (error) {
     next(error);
   }
@@ -54,7 +61,9 @@ export const getCategories = async (
 ) => {
   try {
     const categories = await categoryService.getCategories();
-    res.status(200).json({ message: "Fetched categories successfully", categories });
+    res
+      .status(200)
+      .json({ message: "Fetched categories successfully", categories });
   } catch (error) {
     next(error);
   }
@@ -74,7 +83,9 @@ export const getCategory = async (
     if (!category) {
       throw new CustomError("Category not found", 404);
     }
-    res.status(200).json({ message: "Fetched category successfully", category });
+    res
+      .status(200)
+      .json({ message: "Fetched category successfully", category });
   } catch (error) {
     next(error);
   }

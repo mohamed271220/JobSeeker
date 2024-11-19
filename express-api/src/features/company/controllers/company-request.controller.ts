@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
-import { userRequest } from "../../../../interfaces";
-import { CompanyRequestService } from "./company-request.service";
-import { CustomError } from "../../../../utils/CustomError";
+import { userRequest } from "../../../interfaces";
+import { CompanyRequestService } from "../services/company-request.service";
+import { CustomError } from "../../../utils/CustomError";
 
 const companyRequestService = new CompanyRequestService();
 

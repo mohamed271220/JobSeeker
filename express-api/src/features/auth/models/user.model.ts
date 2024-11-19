@@ -15,7 +15,7 @@ import Application from "../../job-post/models/application.model";
 import UserRole from "./user-role.model";
 import Contact from "../../profile/models/contact-info.model";
 import Company from "../../company/models/company.model";
-import CompanyRequest from "../../company/micro-features/company-request/company-request.model";
+import CompanyRequest from "../../company/models/company-request.model";
 import UserSkill from "../../profile/models/user-skill.model";
 
 @Table({

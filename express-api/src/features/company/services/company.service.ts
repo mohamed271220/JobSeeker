@@ -1,8 +1,8 @@
-import { CustomError } from "../../utils/CustomError";
-import { getPagination, Pagination } from "../../utils/pagination";
-import User from "../auth/models/user.model";
-import Company from "./models/company.model";
-import Representative from "./models/representative.model";
+import { CustomError } from "../../../utils/CustomError";
+import { getPagination, Pagination } from "../../../utils/pagination";
+import User from "../../auth/models/user.model";
+import Company from "../models/company.model";
+import Representative from "../models/representative.model";
 
 export class CompanyService {
   constructor(
@@ -103,48 +103,41 @@ export class CompanyService {
     return { companies, pagination };
   }
 
-  async getCompany(
-    companyId: string
-  ): Promise<Company | null> {
+  async getCompany(companyId: string): Promise<Company | null> {
     const company = await this.companyModel.findOne({
       where: { id: companyId },
     });
     return company;
   }
 
-  async getCompaniesByUser(
-    userId: string
-  ): Promise<Company[]> {
+  async getCompaniesByUser(userId: string): Promise<Company[]> {
     const companies = await this.companyModel.findAll({
       where: { owner_id: userId },
     });
     return companies;
   }
 
-  async getCompaniesByRepresentative(
-    userId: string
-  ): Promise<Company[]> {
+  async getCompaniesByRepresentative(userId: string): Promise<Company[]> {
     // Get the representatives of the user
     const representatives = await this.representativeModel.findAll({
       where: { user_id: userId },
     });
     // Get the company IDs from the representatives
-    const companyIds = representatives.map((representative) => representative.company_id);
+    const companyIds = representatives.map(
+      (representative) => representative.company_id
+    );
 
     // Get the companies from the company IDs
     const companies = await this.companyModel.findAll({
       where: { id: companyIds },
     });
     return companies;
-}
+  }
 
-  async getCompaniesByIndustry(
-    industryId: string
-  ): Promise<Company[]> {
+  async getCompaniesByIndustry(industryId: string): Promise<Company[]> {
     const companies = await this.companyModel.findAll({
       where: { industry_id: industryId },
     });
     return companies;
   }
-
 }

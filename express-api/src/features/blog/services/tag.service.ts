@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
-import BlogTag from "./tag.model";
-import BlogTagAssociation from "../../models/blog-tag.model";
-import Blog from "../../models/blog.model";
+import BlogTag from "../models/blog-tag.model";
+import BlogTagAssociation from "../models/blog-tag.model-mapping";
+import Blog from "../models/blog-post.model";
 
 export class TagService {
   constructor(

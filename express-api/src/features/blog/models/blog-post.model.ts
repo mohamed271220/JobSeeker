@@ -8,8 +8,8 @@ import {
   HasMany,
 } from "sequelize-typescript";
 import Company from "../../company/models/company.model";
-import BlogTagAssociation from "./blog-tag.model";
-import BlogCategoryAssociation from "./blog-category.model";
+import BlogTagAssociation from "./blog-tag.model-mapping";
+import BlogCategoryAssociation from "./blog-category-mapping.model";
 
 @Table({
   tableName: "Blogs",

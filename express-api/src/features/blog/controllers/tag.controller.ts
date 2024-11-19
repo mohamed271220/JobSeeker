@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
-import { TagService } from "./tag.service";
-import { userRequest } from "../../../../interfaces";
-import { CustomError } from "../../../../utils/CustomError";
+import { TagService } from "../services/tag.service";
+import { userRequest } from "../../../interfaces";
+import { CustomError } from "../../../utils/CustomError";
 
 const tagService = new TagService();
 

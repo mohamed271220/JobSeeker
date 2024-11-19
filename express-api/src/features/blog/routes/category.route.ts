@@ -6,9 +6,9 @@ import {
   getCategory,
   getCategories,
   updateCategory,
-} from "./category.controller";
-import { authenticateToken } from "../../../../middleware/auth-middleware";
-import { authorizeRoles } from "../../../../middleware/role-middleware";
+} from "../controllers/category.controller";
+import { authenticateToken } from "../../../middleware/auth-middleware";
+import { authorizeRoles } from "../../../middleware/role-middleware";
 
 const router = express.Router();
 
@@ -16,10 +16,20 @@ const router = express.Router();
 router.post("/", authenticateToken, authorizeRoles("admin"), createCategory);
 
 // admin can edit blog category
-router.put("/:categoryId", authenticateToken, authorizeRoles("admin"), updateCategory);
+router.put(
+  "/:categoryId",
+  authenticateToken,
+  authorizeRoles("admin"),
+  updateCategory
+);
 
 // admin can delete category
-router.delete("/:categoryId", authenticateToken, authorizeRoles("admin"), deleteCategory);
+router.delete(
+  "/:categoryId",
+  authenticateToken,
+  authorizeRoles("admin"),
+  deleteCategory
+);
 
 // get all categories
 router.get("/", getCategories);

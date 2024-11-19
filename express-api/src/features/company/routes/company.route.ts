@@ -1,7 +1,7 @@
 // this file will handle all the routes for the company
 import express from "express";
-import { authenticateToken } from "../../middleware/auth-middleware";
-import { authorizeRoles } from "../../middleware/role-middleware";
+import { authenticateToken } from "../../../middleware/auth-middleware";
+import { authorizeRoles } from "../../../middleware/role-middleware";
 
 import {
   deleteCompany,
@@ -14,10 +14,9 @@ import {
   getCompaniesByUser,
   getCompaniesByIndustry,
   getCompaniesByRepresentative,
-} from "./company.controller";
+} from "../controllers/company.controller";
 
-import companyRequestRouter from "./micro-features/company-request/company-request.route";
-
+import companyRequestRouter from "./company-request.route";
 const router = express.Router();
 
 // Company initializing requests

@@ -1,11 +1,11 @@
 import { Sequelize, Transaction } from "sequelize";
 import { Op } from "sequelize";
-import User from "../../../auth/models/user.model";
-import Company from "../../models/company.model";
-import CompanyRequest from "./company-request.model";
+import User from "../../auth/models/user.model";
+import Company from "../models/company.model";
+import CompanyRequest from "../models/company-request.model";
 import { v4 as uuid } from "uuid";
-import { CustomError } from "../../../../utils/CustomError";
-import db from "../../../../config/database";
+import { CustomError } from "../../../utils/CustomError";
+import db from "../../../config/database";
 
 export class CompanyRequestService {
   constructor(

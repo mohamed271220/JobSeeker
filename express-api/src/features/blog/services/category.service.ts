@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
-import BlogCategory from "./category.model";
-import BlogCategoryAssociation from "../../models/blog-category.model";
-import Blog from "../../models/blog.model";
+import BlogCategory from "../models/blog-category.model";
+import BlogCategoryAssociation from "../models/blog-category-mapping.model";
+import Blog from "../models/blog-post.model";
 
 export class CategoryService {
   constructor(
@@ -17,7 +17,10 @@ export class CategoryService {
     });
   }
 
-  async updateCategory(categoryId: string, body: { name: string }): Promise<[number]> {
+  async updateCategory(
+    categoryId: string,
+    body: { name: string }
+  ): Promise<[number]> {
     return this.categoryModel.update(body, { where: { id: categoryId } });
   }
 

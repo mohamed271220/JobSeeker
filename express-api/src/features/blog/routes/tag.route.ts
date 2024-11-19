@@ -6,9 +6,9 @@ import {
   getTag,
   getTags,
   updateTag,
-} from "./tag.controller";
-import { authenticateToken } from "../../../../middleware/auth-middleware";
-import { authorizeRoles } from "../../../../middleware/role-middleware";
+} from "../controllers/tag.controller";
+import { authenticateToken } from "../../../middleware/auth-middleware";
+import { authorizeRoles } from "../../../middleware/role-middleware";
 
 const router = express.Router();
 

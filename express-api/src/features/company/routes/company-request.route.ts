@@ -1,7 +1,7 @@
 // this file will handle all the routes for the company
 import express from "express";
-import { authenticateToken } from "../../../../middleware/auth-middleware";
-import { authorizeRoles } from "../../../../middleware/role-middleware";
+import { authenticateToken } from "../../../middleware/auth-middleware";
+import { authorizeRoles } from "../../../middleware/role-middleware";
 
 import {
   getCompanyRequests,
@@ -11,7 +11,7 @@ import {
   deleteCompanyRequest,
   applyForCompanyRequest,
   getMyCompanyRequests,
-} from "./company-request.controller";
+} from "../controllers/company-request.controller";
 
 const router = express.Router();
 
