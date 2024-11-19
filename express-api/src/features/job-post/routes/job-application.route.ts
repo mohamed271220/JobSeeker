@@ -9,8 +9,6 @@ import {
   getAllApplicationsCurrentUserInCompany,
   rejectApplication,
   acceptApplication,
-  markApplicationAsSeen,
-  markApplicationAsUnseen,
 } from "../controllers/job-application.controller";
 
 const router = express.Router();
@@ -19,7 +17,7 @@ router.post("/apply", authenticateToken, authorizeRoles("user"), applyToAJob);
 
 // get all applications for a job in a company that the user is an representative of the company or the owner of the company page
 router.get(
-  "/applications",
+  "/job/:jobId",
   authenticateToken,
   authorizeRoles("user"),
   getAllApplications
@@ -27,7 +25,7 @@ router.get(
 
 // get a certain application for a job in a company that the user is an representative of the company or the owner of the company page
 router.get(
-  "/applications/:id",
+  "/:applicationId",
   authenticateToken,
   authorizeRoles("user"),
   getApplication
@@ -35,7 +33,7 @@ router.get(
 
 // get all applications that the user has applied to
 router.get(
-  "/applications/current-user",
+  "/current-user",
   authenticateToken,
   authorizeRoles("user"),
   getAllApplicationsCurrentUser
@@ -43,7 +41,7 @@ router.get(
 
 // get all applications that the user has applied to in a certain company
 router.get(
-  "/applications/current-user/:companyId",
+  "/current-user/:companyId",
   authenticateToken,
   authorizeRoles("user"),
   getAllApplicationsCurrentUserInCompany
@@ -51,7 +49,7 @@ router.get(
 
 // reject an application for a job in a company that the user is an representative of the company or the owner of the company page
 router.delete(
-  "/applications/:id",
+  "/:applicationId",
   authenticateToken,
   authorizeRoles("user"),
   rejectApplication
@@ -59,26 +57,10 @@ router.delete(
 
 // accept an application for a job in a company that the user is an representative of the company or the owner of the company page
 router.put(
-  "/applications/:id",
+  "/:applicationId",
   authenticateToken,
   authorizeRoles("user"),
   acceptApplication
-);
-
-// mark an application as seen by the company
-router.put(
-  "/applications/seen/:id",
-  authenticateToken,
-  authorizeRoles("user"),
-  markApplicationAsSeen
-);
-
-// mark an application as unseen by the company
-router.put(
-  "/applications/unseen/:id",
-  authenticateToken,
-  authorizeRoles("user"),
-  markApplicationAsUnseen
 );
 
 export default router;
