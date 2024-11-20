@@ -36,6 +36,14 @@ router.put(
   roleController.updateRole
 );
 
+// edit user roles
+router.put(
+  "/:userId/roles",
+  authenticateToken,
+  authorizeRoles("superadmin"),
+  roleController.updateUserRoles
+);
+
 router.delete(
   "/:roleId",
   authenticateToken,

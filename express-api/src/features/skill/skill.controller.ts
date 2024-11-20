@@ -17,6 +17,7 @@ export const createSkill = async (
     next(error);
   }
 };
+
 export const updateSkill = async (
   req: userRequest,
   res: Response,

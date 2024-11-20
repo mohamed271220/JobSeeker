@@ -15,8 +15,8 @@ import {
   addProject,
   addSkills,
   addTestimonial,
-} from "./profile.controller";
-import { authenticateToken } from "../../middleware/auth-middleware";
+} from "../profile.controller";
+import { authenticateToken } from "../../../middleware/auth-middleware";
 
 const router = express.Router();
 // api/v1/user-profile
@@ -25,7 +25,7 @@ const router = express.Router();
 router.get("/details/:userId", getUserDetails);
 
 // Get user profile
-router.get("/profile/:userId", getProfile);
+router.get("/:userId", getProfile);
 
 // Get user's contact details
 router.get("/contact/:userId", getUserContactDetails);

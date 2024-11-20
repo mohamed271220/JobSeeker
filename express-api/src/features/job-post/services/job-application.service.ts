@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize-typescript";
+import Sequelize from "../../../config/database";
 import User from "../../auth/models/user.model";
 import JobPost from "../models/job-post.model";
 import JobApplication from "../models/application.model";
@@ -9,7 +9,7 @@ import ApplicationAnswer from "../models/application-answer.model";
 
 export class JobApplicationService {
   constructor(
-    private sequelize: Sequelize,
+    private sequelize: typeof Sequelize = Sequelize,
     private jobApplicationModel: typeof JobApplication = JobApplication,
     private jobPostModel: typeof JobPost = JobPost,
     private userModel: typeof User = User,

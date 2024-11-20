@@ -2,6 +2,7 @@ import { NextFunction } from "express";
 
 import { Request, Response } from "express";
 import { RoleService } from "./role-service";
+import { CustomError } from "../../utils/CustomError";
 
 const roleService = new RoleService();
 
@@ -54,6 +55,24 @@ export const createRole = async (
     const role = await roleService.createRole(req.body);
 
     res.status(201).json({ message: "role created successfully", role });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUserRoles = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { roles } = req.body;
+    const { userId } = req.params;
+    if (!userId) {
+      throw new CustomError("userId is required", 400);
+    }
+    const role = await roleService.updateUserRoles(userId, roles);
+    res.status(200).json({ message: "users roles updated successfully", role });
   } catch (error) {
     next(error);
   }
