@@ -3,7 +3,8 @@ import jopPostRouter from "./job-post.route";
 
 const router = express.Router();
 
-router.use("/job-post", jopPostRouter);
-router.use("/job-application", jopPostRouter);
+router.use("/posts", jopPostRouter);
+router.use("/applications", jopPostRouter);
+router.use("/tags", jopPostRouter);
 
 export default router;

@@ -1,6 +1,6 @@
-import JobPostTag from "../job-post/models/job-post-tag.model";
-import JobPost from "../job-post/models/job-post.model";
-import Tag from "./tag.model";
+import JobPostTag from "../models/job-post-tag.model";
+import JobPost from "../models/job-post.model";
+import Tag from "../models/job-tag.model";
 import { v4 as uuid } from "uuid";
 
 export class TagService {

@@ -5,21 +5,21 @@ import { authorizeRoles } from "../../../middleware/role-middleware";
 const router = express.Router();
 
 // Post a job in a company that the user is an representative of the company or the owner of the company page
-router.post("/job-post", authenticateToken, authorizeRoles("user"));
+router.post("/posts", authenticateToken, authorizeRoles("user"));
 
 // Edit a job post in a company that the user is an representative of the company or the owner of the company page
-router.put("/job-post/:id", authenticateToken, authorizeRoles("user"));
+router.put("/posts/:id", authenticateToken, authorizeRoles("user"));
 
 // Delete a job post in a company that the user is an representative of the company or the owner of the company page
-router.delete("/job-post/:id", authenticateToken, authorizeRoles("user"));
+router.delete("/posts/:id", authenticateToken, authorizeRoles("user"));
 
 // mark a job post as filled in a company that the user is an representative of the company or the owner of the company page
-router.put("/job-post/filled/:id", authenticateToken, authorizeRoles("user"));
+router.put("/posts/filled/:id", authenticateToken, authorizeRoles("user"));
 
 // Get a job post by id in a company
-router.get("/job-post/:id",);
+router.get("/posts/:id",);
 
 // Get all job posts in a company
-router.get("/job-posts",);
+router.get("/posts",);
 
 export default router;

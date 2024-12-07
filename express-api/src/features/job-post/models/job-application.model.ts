@@ -9,13 +9,13 @@ import {
 } from "sequelize-typescript";
 import JobPost from "./job-post.model";
 import User from "../../auth/models/user.model";
-import ApplicationAnswer from "./application-answer.model";
+import JobApplicationAnswer from "./job-application-answer.model";
 
 @Table({
-  tableName: "Applications",
+  tableName: "JobApplications",
   timestamps: true,
 })
-class Application extends Model {
+class JobApplication extends Model {
   @Column({
     type: DataType.UUID,
     primaryKey: true,
@@ -73,11 +73,11 @@ class Application extends Model {
   @BelongsTo(() => User, { foreignKey: "user_id", as: "user" })
   declare user: User;
 
-  @HasMany(() => ApplicationAnswer, {
+  @HasMany(() => JobApplicationAnswer, {
     foreignKey: "application_id",
     as: "answers",
   })
-  declare answers: ApplicationAnswer[];
+  declare answers: JobApplicationAnswer[];
 }
 
-export default Application;
+export default JobApplication;

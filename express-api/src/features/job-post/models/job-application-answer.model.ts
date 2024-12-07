@@ -6,15 +6,14 @@ import {
   ForeignKey,
   BelongsTo,
 } from "sequelize-typescript";
-import sequelize from "../../../config/database";
-import Application from "./application.model";
+import JobApplication from "./job-application.model";
 import JobPostQuestion from "./job-post-question.model";
 
 @Table({
-  tableName: "ApplicationAnswers",
+  tableName: "JobApplicationAnswers",
   timestamps: true,
 })
-class ApplicationAnswer extends Model {
+class JobApplicationAnswer extends Model {
   @Column({
     type: DataType.UUID,
     primaryKey: true,
@@ -22,7 +21,7 @@ class ApplicationAnswer extends Model {
   })
   declare id: string;
 
-  @ForeignKey(() => Application)
+  @ForeignKey(() => JobApplication)
   @Column({
     type: DataType.UUID,
     allowNull: false,
@@ -48,11 +47,11 @@ class ApplicationAnswer extends Model {
   })
   declare createdAt?: Date;
 
-  @BelongsTo(() => Application, {
+  @BelongsTo(() => JobApplication, {
     foreignKey: "application_id",
     as: "application",
   })
-  declare application: Application;
+  declare application: JobApplication;
 
   @BelongsTo(() => JobPostQuestion, {
     foreignKey: "question_id",
@@ -61,4 +60,4 @@ class ApplicationAnswer extends Model {
   declare question: JobPostQuestion;
 }
 
-export default ApplicationAnswer;
+export default JobApplicationAnswer;

@@ -1,14 +1,14 @@
 // this file will handle all the routes for  tags of the job board application.
 import express from "express";
-import { authenticateToken } from "../../middleware/auth-middleware";
-import { authorizeRoles } from "../../middleware/role-middleware";
+import { authenticateToken } from "../../../middleware/auth-middleware";
+import { authorizeRoles } from "../../../middleware/role-middleware";
 import {
   createTag,
   deleteTag,
   getTag,
   getTags,
   updateTag,
-} from "./tag.controller";
+} from "../controllers/tag.controller";
 
 const router = express.Router();
 

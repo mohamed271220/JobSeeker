@@ -11,7 +11,6 @@ import User from "../../auth/models/user.model";
 import Industry from "../../industry/industry.model";
 import Representative from "./representative.model";
 import JobPost from "../../job-post/models/job-post.model";
-import Blog from "../../blog/models/blog-post.model";
 
 @Table({
   tableName: "Companies",
@@ -145,8 +144,6 @@ class Company extends Model {
   @HasMany(() => JobPost, { foreignKey: "company_id", as: "jobPosts" })
   declare jobPosts: JobPost[];
 
-  @HasMany(() => Blog, { foreignKey: "company_id", as: "blogs" })
-  declare blogs: Blog[];
 }
 
 export default Company;

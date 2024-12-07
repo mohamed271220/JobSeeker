@@ -11,7 +11,7 @@ import {
 import Role from "../../role/role.model";
 import Profile from "../../profile/models/profile.model";
 import Representative from "../../company/models/representative.model";
-import Application from "../../job-post/models/application.model";
+import Application from "../../job-post/models/job-application.model";
 import UserRole from "./user-role.model";
 import Contact from "../../profile/models/contact-info.model";
 import Company from "../../company/models/company.model";

@@ -1,4 +1,4 @@
-import Application from "../features/job-post/models/application.model";
+import Application from "../features/job-post/models/job-application.model";
 import ApplicationAnswer from "../features/job-post/models/application-answer.model";
 import Contact from "../features/profile/models/contact-info.model";
 import Education from "../features/profile/models/education.model";
@@ -11,7 +11,7 @@ import JobPostTag from "../features/job-post/models/job-post-tag.model";
 import Project from "../features/profile/models/project.model";
 import Role from "../features/role/role.model";
 import Skill from "../features/skill/skill.model";
-import JobTag from "../features/JobTag/tag.model";
+import JobTag from "../features/job-post/models/job-tag.model";
 import Testimonial from "../features/profile/models/testimonial.model";
 import User from "../features/auth/models/user.model";
 import Profile from "../features/profile/models/profile.model";

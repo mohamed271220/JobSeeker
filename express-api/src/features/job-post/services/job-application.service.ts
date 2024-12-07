@@ -1,11 +1,11 @@
 import Sequelize from "../../../config/database";
 import User from "../../auth/models/user.model";
 import JobPost from "../models/job-post.model";
-import JobApplication from "../models/application.model";
+import JobApplication from "../models/job-application.model";
 import { CustomError } from "../../../utils/CustomError";
 import { isRepresentative } from "../../shared/utils/is-representative";
 import JobPostQuestion from "../models/job-post-question.model";
-import ApplicationAnswer from "../models/application-answer.model";
+import ApplicationAnswer from "../models/job-application-answer.model";
 
 export class JobApplicationService {
   constructor(

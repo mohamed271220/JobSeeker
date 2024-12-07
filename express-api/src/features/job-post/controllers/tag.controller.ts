@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-
-import { TagService } from "../services/tag.service";
 import { userRequest } from "../../../interfaces";
 import { CustomError } from "../../../utils/CustomError";
+import { TagService } from "../services/tag.service";
 
 const tagService = new TagService();
 
@@ -66,10 +65,10 @@ export const getTag = async (
   next: NextFunction
 ) => {
   try {
-    const { includeBlogPosts } = req.query;
+    const { includeJobPosts } = req.query;
     const tag = await tagService.getTag(
       req.params.tagId,
-      includeBlogPosts === "true"
+      includeJobPosts === "true"
     );
     if (!tag) {
       throw new CustomError("Tag not found", 404);

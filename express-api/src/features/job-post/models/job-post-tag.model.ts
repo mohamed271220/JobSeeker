@@ -7,7 +7,7 @@ import {
   BelongsTo,
 } from "sequelize-typescript";
 import JobPost from "./job-post.model";
-import Tag from "../../JobTag/tag.model";
+import Tag from "./job-tag.model";
 
 @Table({
   tableName: "JobPostTags",

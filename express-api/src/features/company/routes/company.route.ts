@@ -1,8 +1,6 @@
-// this file will handle all the routes for the company
 import express from "express";
 import { authenticateToken } from "../../../middleware/auth-middleware";
 import { authorizeRoles } from "../../../middleware/role-middleware";
-
 import {
   deleteCompany,
   reopenCompany,
@@ -16,45 +14,42 @@ import {
   getCompaniesByRepresentative,
 } from "../controllers/company.controller";
 
-import companyRequestRouter from "./company-request.route";
 const router = express.Router();
 
-// Company initializing requests
-router.use("/company-request", companyRequestRouter);
 
-// Company
-// admin
-// admin shuts down a company page or owner can delete their company page
+// Admin shuts down a company page or owner can delete their company page
 router.delete(
   "/:companyId",
   authenticateToken,
   authorizeRoles("admin", "user"),
   deleteCompany
 );
-// admin reopens a company page
+
+// Admin reopens a company page
 router.patch(
-  "/:companyId",
+  "/:companyId/reopen",
   authenticateToken,
   authorizeRoles("admin"),
   reopenCompany
 );
 
-// owner of a company page or it's representatives
-// can update the company page
+// Owner of a company page or its representatives can update the company page
 router.patch(
   "/:companyId/details",
   authenticateToken,
   authorizeRoles("user"),
   updateCompany
 );
-// owner can add a representative to the company page
+
+// Owner can add a representative to the company page
 router.post(
   "/:companyId/representatives",
   authenticateToken,
   authorizeRoles("user"),
   addRepresentative
 );
-// owner can remove a representative from the company page
+
+// Owner can remove a representative from the company page
 router.delete(
   "/:companyId/representatives/:representativeId",
   authenticateToken,
@@ -62,16 +57,19 @@ router.delete(
   removeRepresentative
 );
 
-// users
-// get all companies and searching for companies by name
+// Users can get all companies and search for companies by name
 router.get("/", getCompanies);
-// get the details of a company page
+
+// Get the details of a company page
 router.get("/:companyId", getCompany);
-// get all companies the user is owner of
+
+// Get all companies the user is owner of
 router.get("/owner", authenticateToken, getCompaniesByUser);
-// get all companies the user is a representative
+
+// Get all companies the user is a representative of
 router.get("/representative", authenticateToken, getCompaniesByRepresentative);
-// get all companies by industry
+
+// Get all companies by industry
 router.get("/industry/:industryId", getCompaniesByIndustry);
 
 export default router;
